@@ -1,0 +1,429 @@
+.vlt-custom--8131 {
+    bottom: -250px;
+    left: -200px;
+    max-width: 550px;
+}
+
+.vlt-custom--1451 {
+    top: -25px;
+    left: -30px;
+    width: 256px;
+    height: 208px;
+}
+
+@media only screen and (max-width: 575px) {
+    .vlt-custom--1451 {
+        top: -100px;
+        left: -100px;
+    }
+}
+
+.vlt-custom--1512 {
+    bottom: -28vw;
+    left: 50vw;
+    width: 75vw;
+    height: 75vw;
+    background-size: cover;
+}
+
+.vlt-custom--4124 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40vw;
+    height: 100%;
+    background-position: top left;
+    background-size: cover;
+}
+
+@media only screen and (max-width: 991px) {
+    .vlt-custom--4124 {
+        right: 0;
+        width: 50vw;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .vlt-custom--4124 {
+        right: -50vw;
+        width: 100vw;
+    }
+}
+
+.vlt-custom--1259 {
+    top: -20px;
+    right: -5px;
+    width: 256px;
+    height: 208px;
+}
+
+.vlt-custom--2355 {
+    bottom: -250px;
+    left: 0;
+    width: 389px;
+    height: 550px;
+}
+
+/* ==========================================================================
+   Selected Works — bento grid.
+   3x3 tiles: the real project fills a 2x2, four samples sit around it, a
+   "more work" tile closes the grid. Site tokens: --p1 red, Inter, square
+   corners. Rendered from data/projects.php.
+
+   UX laws applied here, deliberately:
+   - Proximity (Gestalt): 16px gutters separate tiles as distinct objects;
+     inside a tile the label group is tightly spaced so it reads as one unit.
+   - Von Restorff (isolation): the one REAL project is the 2x2 tile with the
+     red-underlined CTA + tags — it is the thing meant to be remembered.
+   - Fitts' Law: the whole tile is the target; hover confirms it with a lift
+     of shadow + a brightening image, so the hit area feels responsive.
+   - Aesthetic-Usability: a staggered reveal on arrival + eased hovers.
+   - Visibility (WCAG): text never relies on low-contrast red. Numbers and
+     categories are white on a two-way scrim; red is kept for borders and the
+     solid "more" tile (white-on-red passes AA), never for small text on photos.
+   ========================================================================== */
+
+.vlt-works__eyebrow {
+    display: block;
+    margin-bottom: .75rem;
+    font-size: .8125rem;
+    font-weight: 600;
+    line-height: 1.6;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    color: var(--p1);
+}
+
+.vlt-bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 200px;
+    gap: 16px;
+    /* Bigger tiles win over one-screen fit: 8 projects can't be large AND fit a
+       single viewport, so the grid grows and the section scrolls in place, like
+       the About and Tools sections already do. */
+    height: auto;
+}
+
+.vlt-bento__tile--lg {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.vlt-bento__tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: #101014;
+    text-decoration: none;
+    color: #fff;
+    box-shadow: 0 0 0 rgba(16, 16, 20, 0);
+    /* Entrance: hidden until the section is landed on (see .animated hook). */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .6s ease, transform .7s cubic-bezier(.22, 1, .36, 1), box-shadow .45s ease;
+}
+
+/* Reveal + stagger — driven by the template's own .animated class, which the
+   slider adds only when you arrive at this section, so nobody misses it. */
+.vlt-animated-block.animated .vlt-bento__tile { opacity: 1; transform: translateY(0); }
+.vlt-animated-block.animated .vlt-bento__tile:nth-child(1) { transition-delay: .00s; }
+.vlt-animated-block.animated .vlt-bento__tile:nth-child(2) { transition-delay: .08s; }
+.vlt-animated-block.animated .vlt-bento__tile:nth-child(3) { transition-delay: .14s; }
+.vlt-animated-block.animated .vlt-bento__tile:nth-child(4) { transition-delay: .20s; }
+.vlt-animated-block.animated .vlt-bento__tile:nth-child(5) { transition-delay: .26s; }
+.vlt-animated-block.animated .vlt-bento__tile:nth-child(6) { transition-delay: .32s; }
+.vlt-animated-block.animated .vlt-bento__tile:nth-child(7) { transition-delay: .38s; }
+.vlt-animated-block.animated .vlt-bento__tile:nth-child(8) { transition-delay: .44s; }
+.vlt-animated-block.animated .vlt-bento__tile:nth-child(9) { transition-delay: .50s; }
+
+.vlt-bento__tile:hover { box-shadow: 0 20px 44px -16px rgba(16, 16, 20, .55); }
+.vlt-bento__tile:focus-visible { outline: 2px solid var(--p1); outline-offset: 3px; }
+
+.vlt-bento__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(.15) brightness(.74);
+    transform: scale(1);
+    transition: filter .6s ease, transform 1.1s cubic-bezier(.22, 1, .36, 1);
+    will-change: transform;
+}
+
+.vlt-bento__tile:hover .vlt-bento__img {
+    filter: grayscale(0) brightness(.9);
+    transform: scale(1.05);
+}
+
+/* Two-way scrim: dark at top so the number stays legible, dark at bottom so
+   the label group stays legible — whatever the photo does in between. */
+.vlt-bento__shade {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to bottom, rgba(16, 16, 20, .55) 0%, rgba(16, 16, 20, 0) 28%),
+        linear-gradient(to top, rgba(16, 16, 20, .92) 0%, rgba(16, 16, 20, .35) 42%, rgba(16, 16, 20, 0) 70%);
+}
+
+.vlt-bento__top {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+}
+
+.vlt-bento__num {
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+}
+
+.vlt-bento__flag {
+    padding: .25rem .5rem;
+    border: 1px solid rgba(255, 255, 255, .5);
+    border-left: 3px solid var(--p1);
+    font-size: .625rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(16, 16, 20, .45);
+}
+
+/* Proximity: the label group sits together as one readable block. */
+.vlt-bento__body {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    padding: 1.1rem;
+}
+
+.vlt-bento__tile--lg .vlt-bento__body { padding: 1.9rem; gap: .5rem; }
+
+.vlt-bento__cat {
+    font-size: .6875rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .82);
+}
+
+.vlt-bento__tile--lg .vlt-bento__cat { font-size: .75rem; color: #fff; }
+
+.vlt-bento__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .35);
+}
+
+.vlt-bento__tile--lg .vlt-bento__title {
+    font-size: clamp(1.5rem, 2.4vw, 2.25rem);
+    letter-spacing: -.02em;
+    max-width: 22ch;
+}
+
+.vlt-bento__tags {
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .7);
+}
+
+/* A little more air before the call to action separates it from the label. */
+.vlt-bento__cta {
+    margin-top: .55rem;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: .8;
+    transition: opacity .3s ease, letter-spacing .3s ease;
+}
+
+.vlt-bento__tile--lg .vlt-bento__cta {
+    font-size: .8125rem;
+    opacity: 1;
+    align-self: flex-start;
+    border-bottom: 2px solid var(--p1);
+    padding-bottom: .25rem;
+}
+
+.vlt-bento__tile:hover .vlt-bento__cta { opacity: 1; letter-spacing: .1em; }
+
+/* --- More tile: white-on-red, passes AA at 5.5:1 --------------------------- */
+
+.vlt-bento__tile--more {
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1.1rem;
+    background: var(--p1);
+}
+
+.vlt-bento__tile--more:hover { box-shadow: 0 20px 44px -16px rgba(195, 50, 58, .5); }
+
+.vlt-bento__more-label {
+    position: relative;
+    z-index: 2;
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    color: #fff;
+}
+
+.vlt-bento__more-sub {
+    position: relative;
+    z-index: 2;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #fff;
+    transition: letter-spacing .3s ease;
+}
+
+.vlt-bento__tile--more:hover .vlt-bento__more-sub { letter-spacing: .16em; }
+
+/* --- Tablet: 2 columns, flows and scrolls in-section (9 tiles won't fit one
+       screen at this width) ------------------------------------------------- */
+
+@media only screen and (max-width: 991px) {
+    .vlt-bento {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: none;
+        grid-auto-rows: 180px;
+        height: auto;
+    }
+
+    .vlt-bento__tile--lg { grid-column: span 2; grid-row: span 2; }
+    .vlt-bento__tile--lg .vlt-bento__title { font-size: 1.5rem; }
+}
+
+/* --- Mobile: single column, natural height, scrolls in-section ------------- */
+
+@media only screen and (max-width: 575px) {
+    .vlt-bento {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        grid-auto-rows: 180px;
+        height: auto;
+    }
+
+    .vlt-bento__tile--lg { grid-column: span 1; grid-row: span 1; }
+    .vlt-bento__tags { display: none; }
+}
+
+/* Reduced motion: everything visible and still, never stuck hidden. */
+@media (prefers-reduced-motion: reduce) {
+    .vlt-bento__tile {
+        opacity: 1;
+        transform: none;
+        transition: box-shadow .3s ease;
+    }
+    .vlt-bento__img,
+    .vlt-bento__cta,
+    .vlt-bento__more-sub { transition: none; }
+    .vlt-bento__tile:hover .vlt-bento__img { transform: none; }
+}
+
+/* ==========================================================================
+   Content protection — pairs with assets/scripts/content-protection.js
+   .is-protected is added by that script, so with JS off the page stays usable.
+   ========================================================================== */
+
+.is-protected body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
+/* Kept selectable so clients can copy your contact details. Must match
+   the SELECTABLE list in content-protection.js. */
+.is-protected .vlt-navbar-contacts,
+.is-protected .vlt-navbar-contacts *,
+.is-protected .vlt-offcanvas-menu__copyright,
+.is-protected .vlt-offcanvas-menu__copyright *,
+.is-protected [data-selectable],
+.is-protected [data-selectable] *,
+.is-protected input,
+.is-protected textarea,
+.is-protected select,
+.is-protected [contenteditable="true"] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+    -webkit-touch-callout: default;
+}
+
+.is-protected img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    pointer-events: auto;
+}
+
+/* ==========================================================================
+   Testimonials — sample marker.
+   Same visual language as the project cards' Sample flag, so placeholder
+   content reads consistently wherever it appears.
+   ========================================================================== */
+
+.vlt-testimonial-item__flag {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: .3rem .6rem;
+    border: 1px solid rgba(255, 255, 255, .45);
+    border-left: 3px solid #fff;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+/* ==========================================================================
+   Education entries — legibility fix.
+   The timeline-item component is styled for the DARK Experience section, so
+   its title and date render white. Reused on the LIGHT Education section that
+   made them invisible (white-on-white). Re-colour them here, Education only,
+   so Experience is unaffected.
+   ========================================================================== */
+
+[data-anchor="Education"] .vlt-timeline-item__title {
+    color: #101014;          /* black, as requested */
+    font-weight: 600;        /* semi-bold */
+}
+
+[data-anchor="Education"] .vlt-timeline-item__year {
+    color: var(--p1);        /* was invisible white; brand red reads as a date label */
+}
+
+[data-anchor="Education"] .vlt-timeline-item__text {
+    color: #5b5b66;          /* was a faint 2.85:1 grey; darker for AA legibility */
+}

@@ -1,0 +1,3143 @@
+/* ==========================================================================
+   Case study page (work.php)
+   Editorial layout on the site's existing tokens: --p1 brand red, Inter.
+   Scoped under .cs- so nothing here can leak into the fullpage slider on index.php.
+   ========================================================================== */
+
+:root {
+    --cs-ink: #101014;
+    --cs-ink-soft: #5b5b66;
+    --cs-ink-faint: #9a9aa6;
+    --cs-rule: #e6e6ec;
+    --cs-paper: #ffffff;
+    --cs-paper-alt: #f6f6f9;
+    --cs-accent: var(--p1, #c3323a);
+    /* Text runs the full container width, matching the grids and figures.
+       Set this back to 680px to return prose to a single reading column —
+       every text block on the page reads this one value. */
+    --cs-measure: 100%;
+
+    /* Matches the .container the rest of the site uses (theme override of the
+       Bootstrap default), so content lines up edge-for-edge when a visitor
+       moves between the home page and a case study. Defined once here —
+       everything that needs to align with the container reads these. */
+    --cs-container: 1680px;
+    --cs-gutter: 15px;
+}
+
+.cs-body {
+    margin: 0;
+    background: var(--cs-paper);
+    color: var(--cs-ink);
+    font-family: var(--pf, Inter), -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+.cs-container {
+    width: 100%;
+    max-width: var(--cs-container);
+    margin: 0 auto;
+    padding: 0 var(--cs-gutter);
+}
+
+/* Nothing on the page is wider than the site container, so --wide is now just
+   the container. Kept as a class so existing markup does not need changing. */
+.cs-container--wide {
+    max-width: var(--cs-container);
+}
+
+.cs-gap {
+    height: 48px;
+}
+
+/* --- Navbar -------------------------------------------------------------- */
+
+.cs-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(16, 16, 20, .9);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.cs-navbar__inner {
+    max-width: var(--cs-container);
+    margin: 0 auto;
+    padding: 18px var(--cs-gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.cs-navbar__logo img {
+    height: 26px;
+    width: auto;
+    display: block;
+}
+
+.cs-navbar__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.cs-navbar__back:hover {
+    color: var(--cs-accent);
+}
+
+.cs-navbar__back-icon {
+    transition: transform .2s ease;
+}
+.cs-navbar__back:hover .cs-navbar__back-icon {
+    transform: translateX(-4px);
+}
+
+/* --- Hero ---------------------------------------------------------------- */
+/* Dark, like the site's own dark sections, so arriving here doesn't feel like
+   leaving the site. The body below stays light because a 9,000px case study
+   is a document, not a slide. */
+
+.cs-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 120px 0 96px;
+    background: var(--cs-ink);
+    color: #fff;
+}
+
+.cs-hero__pattern {
+    position: absolute;
+    top: -40px;
+    right: -60px;
+    width: 320px;
+    height: 260px;
+    background: url(../img/root/plus-dark-pattern.png) no-repeat center / contain;
+    opacity: .5;
+    pointer-events: none;
+}
+
+.cs-draft {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    padding: 10px 18px;
+    border: 1px solid rgba(255, 255, 255, .28);
+    border-left: 3px solid var(--cs-accent);
+}
+
+.cs-draft strong {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--cs-accent);
+}
+
+.cs-draft span {
+    font-size: 13px;
+    color: rgba(255, 255, 255, .6);
+}
+
+.cs-hero__meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+}
+
+.cs-hero__category {
+    color: var(--cs-accent);
+}
+
+.cs-hero__year {
+    color: rgba(255, 255, 255, .45);
+    padding-left: 16px;
+    border-left: 1px solid rgba(255, 255, 255, .2);
+}
+
+.cs-hero__title {
+    margin: 0 0 28px;
+    font-size: clamp(2.75rem, 7vw, 5.75rem);
+    line-height: 1.02;
+    letter-spacing: -.03em;
+    font-weight: 700;
+  
+    color: #fff;
+}
+
+.cs-hero__subtitle {
+    margin: 0;
+    
+    font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, .62);
+    font-weight: 400;
+}
+
+.cs-hero-media {
+    padding: 48px 0 24px;
+}
+
+/* --- Facts --------------------------------------------------------------- */
+
+.cs-facts {
+    padding: 48px 0;
+}
+
+.cs-facts__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 32px 24px;
+    padding: 36px 0;
+    border-top: 1px solid var(--cs-rule);
+    border-bottom: 1px solid var(--cs-rule);
+}
+
+.cs-fact__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--cs-ink-faint);
+    margin-bottom: 8px;
+}
+
+.cs-fact__value {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--cs-ink);
+}
+
+/* --- Sections ------------------------------------------------------------ */
+
+.cs-section {
+    padding: 64px 0;
+}
+
+.cs-section--overview {
+    padding-top: 24px;
+}
+
+.cs-section__head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.cs-section__number {
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: var(--cs-accent);
+    font-variant-numeric: tabular-nums;
+    flex: none;
+}
+
+/* Echoes the '/' the site puts before its project categories. */
+.cs-section__number::before {
+    content: '/ ';
+}
+
+.cs-section__title {
+    margin: 0;
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    font-weight: 700;
+}
+
+/* --- Prose --------------------------------------------------------------- */
+
+.cs-prose {
+    max-width: var(--cs-measure);
+}
+
+/* Justified body copy.
+   hyphens is not optional here: justifying without it stretches word spacing to
+   fill each line, which opens vertical "rivers" of white down the paragraph.
+   Hyphenation lets the browser break words instead, so the extra space stays
+   small and evenly distributed. It needs lang="en" on <html>, which is set. */
+.cs-prose p,
+.cs-challenge__text p {
+    text-align: justify;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    /* Stops a single long token (a URL, a hyphenated term) from forcing a line
+       with enormous gaps around it. */
+    overflow-wrap: break-word;
+}
+
+.cs-prose p {
+    margin: 0 0 1.35em;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--cs-ink-soft);
+}
+
+.cs-prose p:last-child {
+    margin-bottom: 0;
+}
+
+.cs-overview {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.cs-overview__label {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--cs-ink-faint);
+    padding-top: 8px;
+}
+
+.cs-overview__body p {
+    font-size: 1.1875rem;
+    color: var(--cs-ink);
+}
+
+/* --- Stats --------------------------------------------------------------- */
+
+.cs-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1px;
+    margin-top: 48px;
+    background: var(--cs-rule);
+    border: 1px solid var(--cs-rule);
+}
+
+.cs-stat {
+    background: var(--cs-paper);
+    padding: 32px 24px;
+}
+
+.cs-stat__value {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -.04em;
+    color: var(--cs-accent);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 10px;
+}
+
+.cs-stat__label {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--cs-ink-soft);
+}
+
+/* --- Callout ------------------------------------------------------------- */
+
+.cs-callout {
+    max-width: var(--cs-measure);
+    margin-top: 40px;
+    padding: 32px 36px;
+    background: var(--cs-paper-alt);
+    border-left: 3px solid var(--cs-accent);
+}
+
+.cs-callout__title {
+    margin: 0 0 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--cs-ink);
+}
+
+.cs-callout__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cs-callout__list li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 14px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--cs-ink-soft);
+}
+
+.cs-callout__list li:last-child {
+    margin-bottom: 0;
+}
+
+.cs-callout__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .6em;
+    width: 8px;
+    height: 1px;
+    background: var(--cs-accent);
+}
+
+/* --- Gallery ------------------------------------------------------------- */
+
+.cs-gallery {
+    display: grid;
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.cs-gallery--split {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.cs-figure {
+    margin: 0;
+}
+
+.cs-figure__frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--cs-paper-alt);
+    border: 1px solid var(--cs-rule);
+}
+
+.cs-figure__frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cs-figure--21x9 .cs-figure__frame {
+    aspect-ratio: 21 / 9;
+}
+.cs-figure--16x9 .cs-figure__frame {
+    aspect-ratio: 16 / 9;
+}
+.cs-figure--3x2  .cs-figure__frame {
+    aspect-ratio: 3 / 2;
+}
+.cs-figure--4x3  .cs-figure__frame {
+    aspect-ratio: 4 / 3;
+}
+
+/* A designed cover card is artwork, not a photograph: it must not be cropped,
+   so it is contained rather than covered. The frame then letterboxes only if
+   the declared ratio and the file disagree. */
+.cs-hero-media .cs-figure__frame img {
+    object-fit: contain;
+}
+
+/* The banner is a finished piece of artwork with its own background and edges.
+   A drop shadow would present it as a card floating above the page, which is a
+   frame the artwork does not need — it reads as a banner, not an object. The
+   border goes too, for the same reason: the cover already defines its own edge. */
+.cs-hero-media .cs-figure__frame {
+    box-shadow: none;
+    border: 0;
+    background: none;
+}
+
+.cs-figure__caption {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--cs-ink-faint);
+}
+
+/* Placeholder reads as an intentional frame awaiting art, not a broken image. */
+.cs-figure__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background-image: repeating-linear-gradient(
+        -45deg,
+        transparent 0 10px,
+        rgba(16, 16, 20, .022) 10px 20px
+        );
+}
+
+.cs-figure__placeholder-mark {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    opacity: .5;
+}
+
+.cs-figure__placeholder-mark::before,
+.cs-figure__placeholder-mark::after {
+    content: '';
+    position: absolute;
+    background: var(--cs-accent);
+}
+
+.cs-figure__placeholder-mark::before {
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    transform: translateX(-50%);
+}
+
+.cs-figure__placeholder-mark::after {
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: translateY(-50%);
+}
+
+.cs-figure__placeholder-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    color: var(--cs-ink-faint);
+    text-align: center;
+    padding: 0 24px;
+    max-width: 30ch;
+}
+
+/* --- CTA ----------------------------------------------------------------- */
+
+.cs-cta {
+    margin-top: 48px;
+    padding: 96px 0;
+    background: var(--cs-ink);
+    color: #fff;
+}
+
+.cs-cta__title {
+    margin: 0 0 16px;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    font-weight: 700;
+    max-width: 18ch;
+}
+
+.cs-cta__text {
+    margin: 0 0 40px;
+    max-width: 46ch;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, .62);
+}
+
+.cs-cta__actions {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.cs-cta__secondary {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, .3);
+    padding-bottom: 4px;
+    transition: border-color .2s ease;
+}
+
+.cs-cta__secondary:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+
+/* --- Footer / 404 -------------------------------------------------------- */
+
+.cs-footer {
+    padding: 32px 0;
+    border-top: 1px solid var(--cs-rule);
+}
+
+.cs-footer p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--cs-ink-faint);
+}
+
+.cs-notfound {
+    padding: 120px 0;
+    text-align: center;
+}
+.cs-notfound h1 {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    letter-spacing: -.03em;
+}
+.cs-notfound p {
+    color: var(--cs-ink-soft);
+    margin-bottom: 32px;
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 767px) {
+    .cs-hero {
+        padding: 56px 0 40px;
+    }
+    .cs-section {
+        padding: 48px 0;
+    }
+
+    .cs-overview {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .cs-section__head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .cs-callout {
+        padding: 24px;
+    }
+    .cs-cta {
+        padding: 64px 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cs-navbar__back,
+    .cs-navbar__back-icon,
+    .cs-cta__secondary {
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   Editorial extras — progress bar, chapter rail, watermark numbers,
+   dark stats band. Added with the accordion redesign of Selected Works.
+   ========================================================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* --- Reading progress ------------------------------------------------------ */
+
+.cs-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 60;
+    background: transparent;
+    pointer-events: none;
+}
+
+.cs-progress span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--cs-accent);
+}
+
+/* --- Chapter rail ---------------------------------------------------------- */
+
+.cs-rail {
+    position: fixed;
+    left: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.cs-rail a {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    font-variant-numeric: tabular-nums;
+    color: var(--cs-ink-faint);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    padding-left: 10px;
+    transition: color .25s ease, border-color .25s ease;
+}
+
+.cs-rail a:hover {
+    color: var(--cs-ink);
+}
+
+.cs-rail a.is-active {
+    color: var(--cs-accent);
+    border-left-color: var(--cs-accent);
+}
+
+/* The rail is fixed to the left edge, so it only appears when the viewport is
+   wide enough to clear the container — otherwise it sits on top of the content.
+   With the container now matching the site's 1680px, that needs ~1790px. */
+@media (max-width: 1789px) {
+    .cs-rail {
+        display: none;
+    }
+}
+
+/* --- Watermark chapter numbers --------------------------------------------- */
+
+.cs-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.cs-section .cs-container {
+    position: relative;
+    z-index: 1;
+}
+
+.cs-section__watermark {
+    position: absolute;
+    top: 8px;
+    right: -8px;
+    z-index: 0;
+    font-size: clamp(7rem, 16vw, 13rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.04em;
+    font-variant-numeric: tabular-nums;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(16, 16, 20, .08);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* --- Stats band ------------------------------------------------------------
+   Light, to match the document the rest of the page is. The numbers carry the
+   emphasis on their own — a black band around them was doing work the scale of
+   the figures already does, and it broke the page in half visually.
+   ---------------------------------------------------------------------------- */
+
+.cs-stats {
+    /* No inner hairlines: each card is its own tile with real space around it,
+       which reads less like a table row and more like a set of facts. */
+    background: none;
+    border: 0;
+    gap: 16px;
+}
+
+.cs-stat {
+    position: relative;
+    overflow: hidden;
+    padding: 36px 28px 32px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 16px;
+    background:
+        linear-gradient(170deg, rgba(195, 50, 58, .045) 0%, rgba(195, 50, 58, 0) 42%),
+        var(--cs-paper);
+}
+
+/* Accent rule under the figure — a fixed underline that separates the number
+   from its label. */
+.cs-stat__value::after {
+    content: "";
+    display: block;
+    width: 26px;
+    height: 3px;
+    margin-top: 16px;
+    border-radius: 3px;
+    background: var(--cs-accent);
+}
+
+.cs-stat__label {
+    margin-top: 14px;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-ink-soft);
+}
+
+
+/* ==========================================================================
+   Rich case-study blocks — lead intro, personas, style guide.
+   Added to support a detailed, long-form case study layout.
+   ========================================================================== */
+
+/* Lead line: a larger sentence that opens a section and sets it up. */
+/* Selector is `p.cs-lead`, not `.cs-lead`, deliberately: the theme's stray
+   `p:last-of-type { text-align: justify }` scores (0,1,1), which outranks a
+   bare class at (0,1,0). Matching that score lets source order decide, and
+   case-study.css loads last. */
+p.cs-lead {
+    max-width: var(--cs-measure);
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.4;
+    letter-spacing: -.01em;
+    font-weight: 500;
+    color: var(--cs-ink);
+    /* Display type is set left, not justified. Justification stretches word
+       spacing to fill the line, and the larger the type the more visible each
+       gap becomes. Body copy below is still justified — this overrides both
+       that intent and the theme's stray `p:last-of-type { text-align: justify }`
+       in vlt-main.min.css, which would otherwise catch this element. */
+    text-align: left;
+    text-wrap: balance;
+}
+
+/* --- Personas ------------------------------------------------------------- */
+
+.cs-personas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.cs-persona {
+    padding: 28px;
+    background: var(--cs-paper-alt);
+    border: 1px solid var(--cs-rule);
+}
+
+.cs-persona__head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--cs-rule);
+}
+
+.cs-persona__avatar {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 38%, var(--cs-ink-faint) 0 34%, transparent 35%),
+        radial-gradient(circle at 50% 100%, var(--cs-ink-faint) 0 46%, transparent 47%),
+        var(--cs-rule);
+    background-size: 100% 100%;
+}
+
+.cs-persona__name {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: var(--cs-ink);
+}
+
+.cs-persona__context {
+    margin: 4px 0 0;
+    font-size: .8125rem;
+    color: var(--cs-ink-faint);
+}
+
+.cs-persona__group + .cs-persona__group {
+    margin-top: 18px;
+}
+
+.cs-persona__label {
+    margin: 0 0 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-accent);
+}
+
+.cs-persona__group ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cs-persona__group li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 9px;
+    font-size: .9375rem;
+    line-height: 1.55;
+    color: var(--cs-ink-soft);
+}
+
+.cs-persona__group li:last-child {
+    margin-bottom: 0;
+}
+
+.cs-persona__group li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .6em;
+    width: 7px;
+    height: 1px;
+    background: var(--cs-accent);
+}
+
+@media (max-width: 767px) {
+    .cs-persona {
+        padding: 22px;
+    }
+}
+
+/* ==========================================================================
+   All-projects index (projects.php) — responsive card grid.
+   ========================================================================== */
+
+.cs-projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 28px;
+}
+
+.cs-project {
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    border: 1px solid rgba(16, 16, 20, .2);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 2px 10px -6px rgba(16, 16, 20, .18);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+}
+
+.cs-project:hover {
+    color: inherit;
+    border-color: rgba(16, 16, 20, .38);
+    box-shadow: 0 16px 36px -18px rgba(16, 16, 20, .32);
+    transform: translateY(-3px);
+}
+
+.cs-project__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--cs-ink);
+}
+
+.cs-project__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .8s cubic-bezier(.22, 1, .36, 1);
+}
+
+.cs-project:hover .cs-project__media img {
+    transform: scale(1.05);
+}
+
+.cs-project__num {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+}
+
+.cs-project__tag {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    padding: .3rem .7rem;
+    border: 1px solid rgba(255, 255, 255, .55);
+    border-radius: 40px;
+    font-size: .6875rem;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(16, 16, 20, .35);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    white-space: nowrap;
+}
+
+.cs-project__info {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    padding: 16px 6px 6px;
+}
+
+.cs-project__flag {
+    align-self: flex-start;
+    margin-bottom: 10px;
+    padding: .25rem .55rem;
+    border: 1px solid rgba(16, 16, 20, .2);
+    border-left: 3px solid var(--cs-accent);
+    font-size: .625rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--cs-accent);
+}
+
+.cs-project__cat {
+    display: block;
+    margin-bottom: 8px;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--cs-accent);
+}
+
+.cs-project__title {
+    margin: 0 0 10px;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+    font-weight: 700;
+    color: var(--cs-ink);
+}
+
+.cs-project__text {
+    margin: 0 0 18px;
+    font-size: .9375rem;
+    line-height: 1.6;
+    color: var(--cs-ink-soft);
+}
+
+/* Pushed to the bottom so CTAs line up across cards of differing text length. */
+.cs-project__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 10px 20px;
+    border: 1px solid rgba(16, 16, 20, .25);
+    border-radius: 4px;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--cs-ink);
+    transition: background .3s ease, color .3s ease, border-color .3s ease;
+}
+
+.cs-project:hover .cs-project__cta {
+    background: var(--cs-accent);
+    border-color: var(--cs-accent);
+    color: #fff;
+}
+.cs-project__cta-icon {
+    transition: transform .3s ease;
+}
+.cs-project:hover .cs-project__cta-icon {
+    transform: translateX(4px);
+}
+
+.cs-projects__note {
+    margin: 40px 0 0;
+    padding: 16px 20px;
+    background: var(--cs-paper-alt);
+    border-left: 3px solid var(--cs-accent);
+    font-size: .9375rem;
+    line-height: 1.6;
+    color: var(--cs-ink-soft);
+}
+
+@media (max-width: 575px) {
+    .cs-projects {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cs-project,
+    .cs-project__media img,
+    .cs-project__cta,
+    .cs-project__cta-icon {
+        transition: none;
+    }
+    .cs-project:hover {
+        transform: none;
+    }
+    .cs-project:hover .cs-project__media img {
+        transform: none;
+    }
+}
+
+/* ==========================================================================
+   Case-study narrative components
+   Added for the long-form structure: brief grid, design challenge, journey
+   map, impact split and closing panel. All sit on the existing --cs- tokens
+   so they inherit the page type scale and rules rather than restating them.
+   ========================================================================== */
+
+/* --- Brief: the four-quadrant opener ------------------------------------- */
+
+.cs-brief {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--cs-rule);
+    border: 1px solid var(--cs-rule);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.cs-brief__cell {
+    background: var(--cs-paper);
+    padding: 34px 32px;
+}
+
+.cs-brief__label {
+    margin: 0 0 12px;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-accent);
+}
+
+.cs-brief__text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--cs-ink-soft);
+}
+
+/* --- Design challenge ---------------------------------------------------- */
+
+.cs-section--challenge {
+    background:
+        radial-gradient(80% 120% at 50% 0%, rgba(195, 50, 58, .05) 0%, rgba(195, 50, 58, 0) 60%),
+        var(--cs-paper-alt);
+}
+
+/* The question is the loudest line on the page. It is the thing the whole case
+   study answers. It now uses the shared .cs-lead component instead of its own
+   type and width, so this section opens exactly like every other one. The old
+   bespoke rule set max-width: 20ch, which combined with justified text to open
+   huge word gaps — the narrower the column, the worse justification looks. */
+
+.cs-challenge__text {
+    max-width: var(--cs-measure);
+    margin-bottom: 48px;
+}
+
+.cs-challenge__label {
+    margin: 0 0 20px;
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-ink-faint);
+}
+
+.cs-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* Frosted tiles. The glass reads against the tinted section background. */
+.cs-metric {
+    padding: 26px 22px;
+    border: 1px solid rgba(255, 255, 255, .7);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .55);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    backdrop-filter: blur(10px) saturate(140%);
+    box-shadow: 0 12px 30px -20px rgba(16, 16, 20, .5);
+}
+
+.cs-metric__value {
+    font-size: clamp(1.5rem, 2.6vw, 2.125rem);
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1;
+    color: var(--cs-accent);
+}
+
+.cs-metric__label {
+    margin-top: 12px;
+    font-size: .8125rem;
+    line-height: 1.55;
+    color: var(--cs-ink-soft);
+}
+
+/* --- Journey map --------------------------------------------------------- */
+
+.cs-journey {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+}
+
+.cs-journey__stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 22px 22px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 14px;
+    background: var(--cs-paper);
+}
+
+/* The top rule carries the emotional read, so the severity of a stage is
+   legible before any of its text is. */
+.cs-journey__stage::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    height: 3px;
+    border-radius: 14px 14px 0 0;
+    background: var(--cs-ink-faint);
+}
+
+.cs-journey__stage--neutral::before  {
+    background: #9a9aa6;
+}
+.cs-journey__stage--low::before      {
+    background: #d8a33c;
+}
+.cs-journey__stage--critical::before {
+    background: var(--cs-accent);
+}
+
+.cs-journey__head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.cs-journey__step {
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: var(--cs-ink-faint);
+    font-variant-numeric: tabular-nums;
+}
+
+.cs-journey__title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: var(--cs-ink);
+}
+
+.cs-journey__action {
+    margin: 0 0 12px;
+    font-size: .875rem;
+    line-height: 1.6;
+    color: var(--cs-ink-soft);
+}
+
+.cs-journey__thought {
+    margin: 0 0 18px;
+    padding-left: 12px;
+    border-left: 2px solid var(--cs-rule);
+    font-size: .875rem;
+    line-height: 1.6;
+    font-style: italic;
+    color: var(--cs-ink);
+}
+
+.cs-journey__row {
+    margin-bottom: 14px;
+}
+
+.cs-journey__label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: .625rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-ink-faint);
+}
+
+.cs-journey__row p {
+    margin: 0;
+    font-size: .8125rem;
+    line-height: 1.55;
+    color: var(--cs-ink-soft);
+}
+
+.cs-journey__mood {
+    margin-top: auto;
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .6875rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--cs-ink-soft);
+}
+
+.cs-journey__mood-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cs-ink-faint);
+}
+
+.cs-journey__stage--low .cs-journey__mood-dot      {
+    background: #d8a33c;
+}
+.cs-journey__stage--critical .cs-journey__mood-dot {
+    background: var(--cs-accent);
+}
+
+/* --- Impact split -------------------------------------------------------- */
+
+.cs-impact {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+    margin-top: 48px;
+}
+
+.cs-impact__label {
+    margin: 0 0 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--cs-rule);
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-accent);
+}
+
+.cs-impact__col ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cs-impact__col li {
+    position: relative;
+    padding: 0 0 16px 26px;
+    font-size: .9375rem;
+    line-height: 1.65;
+    color: var(--cs-ink-soft);
+}
+
+.cs-impact__col li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: .62em;
+    width: 10px;
+    height: 2px;
+    background: var(--cs-accent);
+}
+
+/* --- Key learnings ------------------------------------------------------- */
+
+.cs-learnings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 48px;
+}
+
+.cs-learning {
+    padding: 30px 28px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 14px;
+    background: var(--cs-paper-alt);
+}
+
+.cs-learning__title {
+    margin: 0 0 10px;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -.015em;
+    color: var(--cs-ink);
+}
+
+.cs-learning__text {
+    margin: 0;
+    font-size: .9375rem;
+    line-height: 1.7;
+    color: var(--cs-ink-soft);
+}
+
+/* --- Closing panel ------------------------------------------------------- */
+
+.cs-cta {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Soft brand bloom behind the closing copy, so the last screen has some depth
+   rather than reading as a flat black band. */
+.cs-cta__glow {
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    width: min(900px, 120%);
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(195, 50, 58, .30) 0%, rgba(195, 50, 58, 0) 62%);
+    pointer-events: none;
+}
+
+.cs-cta .cs-container {
+    position: relative;
+    z-index: 1;
+}
+
+.cs-cta__links {
+    margin-top: 44px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255, 255, 255, .14);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: .875rem;
+}
+
+.cs-cta__links a {
+    color: rgba(255, 255, 255, .72);
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.cs-cta__links a:hover {
+    color: #fff;
+}
+.cs-cta__links span {
+    color: rgba(255, 255, 255, .28);
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+    /* Five journey columns stop being readable well before the tablet
+       breakpoint, so they wrap earlier than the rest of the layout. */
+    .cs-journey  {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .cs-metrics  {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .cs-brief,
+    .cs-journey,
+    .cs-metrics,
+    .cs-impact,
+    .cs-learnings {
+        grid-template-columns: 1fr;
+    }
+
+    .cs-brief__cell {
+        padding: 26px 22px;
+    }
+    .cs-impact {
+        gap: 36px;
+    }
+    .cs-cta__links {
+        gap: 10px;
+        font-size: .8125rem;
+    }
+}
+
+
+/* ==========================================================================
+   Presentation pass
+   Vertical rhythm, the reserved-image frame, and the section-level styling
+   that carries the page between blocks of prose. Later in the file than the
+   base rules on purpose: these are refinements over them, not replacements.
+   ========================================================================== */
+
+:root {
+    /* One spacing scale for the whole document. Every gap below is a step on
+       it, so the page keeps a single rhythm instead of accumulating one-off
+       margins. Steps are roughly 1.5x apart. */
+    --cs-space-2xs: 8px;
+    --cs-space-xs: 16px;
+    --cs-space-s: 24px;
+    --cs-space-m: 40px;
+    --cs-space-l: 64px;
+    --cs-space-xl: 96px;
+}
+
+/* --- Section rhythm ------------------------------------------------------ */
+
+/* Sections breathe more than the original 64px. At this reading length the
+   generous top and bottom space is what separates one idea from the next —
+   it does more for legibility than any type change would. */
+.cs-section {
+    position: relative;
+    padding: clamp(72px, 8vw, 120px) 0;
+}
+
+.cs-section--overview {
+    padding-top: var(--cs-space-m);
+}
+
+/* A hairline between chapters, inset to the container so it reads as an
+   editorial rule rather than a full-bleed divider. */
+.cs-section + .cs-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(var(--cs-container), calc(100% - (var(--cs-gutter) * 2)));
+    height: 1px;
+    background: var(--cs-rule);
+}
+
+/* The tinted challenge panel supplies its own separation. */
+.cs-section--challenge::before,
+.cs-section--challenge + .cs-section::before {
+    display: none;
+}
+
+.cs-section__head {
+    margin-bottom: var(--cs-space-m);
+}
+
+/* Lead paragraph sets up the section; give it room before the body starts. */
+.cs-lead + .cs-section__body {
+    margin-top: var(--cs-space-s);
+}
+
+.cs-callout {
+    margin-top: var(--cs-space-m);
+}
+
+/* --- Figures ------------------------------------------------------------- */
+
+.cs-gallery {
+    margin-top: var(--cs-space-l);
+}
+
+.cs-figure__frame {
+    border-radius: 16px;
+    box-shadow: 0 30px 60px -40px rgba(16, 16, 20, .45);
+}
+
+.cs-figure__caption {
+    margin-top: var(--cs-space-xs);
+    font-size: .8125rem;
+    letter-spacing: .01em;
+}
+
+/* --- Reserved image frame ------------------------------------------------ */
+
+/* The empty state is designed, not defaulted. It names the shot it is holding
+   space for, so an unfinished case study still reads as art-directed. */
+.cs-figure--reserved .cs-figure__frame {
+    border-style: dashed;
+    border-color: #d8d8e2;
+    background:
+        radial-gradient(120% 140% at 50% 0%, rgba(195, 50, 58, .045) 0%, rgba(195, 50, 58, 0) 55%),
+        var(--cs-paper-alt);
+    box-shadow: none;
+}
+
+.cs-figure__reserved {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 0 32px;
+    text-align: center;
+}
+
+/* Corner ticks — a crop-mark reference, which is the language a designer
+   already reads as "artwork goes here". */
+.cs-figure__reserved-frame {
+    position: relative;
+    width: 44px;
+    height: 34px;
+    opacity: .55;
+}
+
+.cs-figure__reserved-frame::before,
+.cs-figure__reserved-frame::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--cs-accent);
+}
+
+.cs-figure__reserved-frame::before {
+    top: 0;
+    left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.cs-figure__reserved-frame::after {
+    right: 0;
+    bottom: 0;
+    border-left: 0;
+    border-top: 0;
+}
+
+.cs-figure__reserved-label {
+    font-size: .9375rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: -.01em;
+    color: var(--cs-ink);
+    max-width: 34ch;
+}
+
+.cs-figure__reserved-note {
+    font-size: .625rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--cs-ink-faint);
+}
+
+/* --- Section watermark --------------------------------------------------- */
+
+/* Oversized chapter numeral bled off the right edge. Sits behind everything
+   and is decorative only — the real number is in the section head. */
+.cs-section__watermark {
+    position: absolute;
+    top: clamp(24px, 4vw, 56px);
+    right: max(16px, calc(50% - (var(--cs-container) / 2) + var(--cs-gutter)));
+    z-index: 0;
+    font-size: clamp(6rem, 15vw, 13rem);
+    font-weight: 800;
+    line-height: .8;
+    letter-spacing: -.06em;
+    color: var(--cs-ink);
+    opacity: .035;
+    pointer-events: none;
+    user-select: none;
+    font-variant-numeric: tabular-nums;
+}
+
+.cs-section .cs-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Component spacing --------------------------------------------------- */
+
+.cs-personas {
+    margin-top: var(--cs-space-l);
+}
+
+.cs-journey,
+.cs-impact,
+.cs-learnings {
+    margin-top: var(--cs-space-l);
+}
+
+.cs-brief {
+    margin-top: 0;
+}
+
+.cs-stats {
+    margin-top: var(--cs-space-l);
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 767px) {
+    .cs-section + .cs-section::before {
+        width: calc(100% - 40px);
+    }
+
+    .cs-gallery,
+    .cs-personas,
+    .cs-journey,
+    .cs-impact,
+    .cs-learnings,
+    .cs-stats {
+        margin-top: var(--cs-space-m);
+    }
+
+    .cs-figure__reserved {
+        gap: 12px;
+        padding: 0 20px;
+    }
+    /* px, not rem: the theme drops the root to 14px on small screens, which
+       takes a rem-based label down to ~11px and below comfortable reading. */
+    .cs-figure__reserved-label {
+        font-size: 13px;
+    }
+    .cs-figure__frame {
+        border-radius: 12px;
+    }
+}
+
+
+/* ==========================================================================
+   Subheading scale — single source of truth
+   Every label-level subheading on the page resolves here rather than
+   restating its own size and tracking. They had drifted to 10px/11px/12px
+   and 600/700 weight across components; one rule keeps them identical and
+   makes the next component that needs a label obvious to style.
+   Colour stays per-component: it carries meaning, size does not.
+   ========================================================================== */
+
+.cs-challenge__label,
+.cs-callout__title,
+.cs-brief__label,
+.cs-impact__label,
+.cs-persona__label,
+.cs-overview__label,
+.cs-journey__label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+}
+
+/* ==========================================================================
+   Problem -> solution, paired per user
+   Sits under the personas. Each row reads across: a frustration on the left,
+   the thing that answered it on the right. The pairing is the point, so the
+   two cells are joined by an arrow rather than being two separate lists.
+   ========================================================================== */
+
+.cs-needs {
+    margin-top: var(--cs-space-l);
+}
+
+.cs-needs__group + .cs-needs__group {
+    margin-top: var(--cs-space-l);
+}
+
+.cs-needs__user {
+    margin: 0 0 var(--cs-space-s);
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--cs-rule);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: var(--cs-ink);
+}
+
+/* Column headings, shown once per user on wide screens. Hidden on narrow
+   screens where the rows stack and each cell carries its own tag instead. */
+.cs-needs__head {
+    display: grid;
+    grid-template-columns: 1fr 44px 1fr;
+    gap: 0;
+    margin-bottom: 12px;
+}
+
+.cs-needs__head-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.cs-needs__head-label--problem  {
+    color: var(--cs-ink-faint);
+}
+.cs-needs__head-label--solution {
+    grid-column: 3;
+    color: var(--cs-accent);
+}
+
+.cs-needs__pair {
+    display: grid;
+    grid-template-columns: 1fr 44px 1fr;
+    align-items: stretch;
+    margin-bottom: 12px;
+}
+
+.cs-needs__cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 22px 24px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 14px;
+}
+
+/* The problem sits back; the solution comes forward. The weight difference is
+   what makes the direction of the row readable at a glance. */
+.cs-needs__cell--problem {
+    background: var(--cs-paper-alt);
+}
+
+.cs-needs__cell--solution {
+    background:
+        linear-gradient(160deg, rgba(195, 50, 58, .05) 0%, rgba(195, 50, 58, 0) 55%),
+        var(--cs-paper);
+    border-color: rgba(195, 50, 58, .28);
+}
+
+.cs-needs__cell p {
+    margin: 0;
+    font-size: .9375rem;
+    line-height: 1.65;
+    /* Left, not justified: these cells are narrow, and justification opens
+       visible word gaps the moment a line has few words to spread across. */
+    text-align: left;
+}
+
+.cs-needs__cell--problem p  {
+    color: var(--cs-ink-soft);
+}
+.cs-needs__cell--solution p {
+    color: var(--cs-ink);
+}
+
+/* Per-cell tag, for the stacked layout. Hidden on wide screens where the
+   column headings above already say which side is which. */
+.cs-needs__tag {
+    display: none;
+    margin-bottom: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-ink-faint);
+}
+
+.cs-needs__cell--solution .cs-needs__tag {
+    color: var(--cs-accent);
+}
+
+.cs-needs__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--cs-ink-faint);
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 899px) {
+    /* Stack: the arrow rotates to point down, and each cell shows its own tag
+       because the shared column headings no longer sit above the right pair. */
+    .cs-needs__head {
+        display: none;
+    }
+
+    .cs-needs__pair {
+        grid-template-columns: 1fr;
+        margin-bottom: var(--cs-space-s);
+    }
+
+    .cs-needs__tag {
+        display: block;
+    }
+
+    .cs-needs__arrow {
+        transform: rotate(90deg);
+        padding: 8px 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cs-needs__cell {
+        transition: none;
+    }
+}
+
+/* ==========================================================================
+   Project brief rows + empathy map + UX questions
+   ========================================================================== */
+
+/* --- Project brief rows -------------------------------------------------- */
+
+/* A definition list, not cards: these are reference facts a reader scans down,
+   so a fixed label column and a hairline per row beats equal-weight tiles. */
+.cs-briefrows {
+    margin: var(--cs-space-l) 0 0;
+    border-top: 1px solid var(--cs-rule);
+}
+
+.cs-briefrows__row {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 40px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--cs-rule);
+}
+
+.cs-briefrows__label {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-accent);
+    line-height: 1.35;
+}
+
+.cs-briefrows__value {
+    margin: 0;
+}
+
+.cs-briefrows__value ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cs-briefrows__value li {
+    position: relative;
+    padding: 0 0 10px 22px;
+    font-size: .9375rem;
+    line-height: 1.65;
+    color: var(--cs-ink-soft);
+}
+
+.cs-briefrows__value li:last-child {
+    padding-bottom: 0;
+}
+
+.cs-briefrows__value li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .68em;
+    width: 8px;
+    height: 1px;
+    background: var(--cs-accent);
+}
+
+.cs-briefrows__value p {
+    margin: 0;
+    font-size: .9375rem;
+    line-height: 1.65;
+    color: var(--cs-ink-soft);
+}
+
+/* --- UX questions -------------------------------------------------------- */
+
+.cs-questions {
+    margin: 0 0 var(--cs-space-m);
+    padding: 0;
+    list-style: none;
+    counter-reset: q;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.cs-questions li {
+    counter-increment: q;
+    position: relative;
+    padding: 20px 24px 20px 58px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .6);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    font-size: .9375rem;
+    line-height: 1.6;
+    color: var(--cs-ink);
+}
+
+/* Question mark rather than a plain numeral: these are open questions, and the
+   glyph says so before the sentence is read. */
+.cs-questions li::before {
+    content: "Q" counter(q);
+    position: absolute;
+    left: 22px;
+    top: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: var(--cs-accent);
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Empathy map --------------------------------------------------------- */
+
+.cs-empathy {
+    margin-top: var(--cs-space-l);
+}
+
+.cs-empathy__subject {
+    margin: 0 0 var(--cs-space-s);
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--cs-rule);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-ink-faint);
+}
+
+/* 2x2, so the opposing pairs sit adjacent the way the method intends. */
+.cs-empathy__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.cs-empathy__cell {
+    padding: 26px 24px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 16px;
+    background: var(--cs-paper);
+}
+
+/* A quiet tint per quadrant — enough to read as four distinct areas without
+   turning the block into a colour chart. */
+.cs-empathy__cell--says   {
+    background: linear-gradient(160deg, rgba(31, 95, 191, .05), rgba(31, 95, 191, 0) 60%), var(--cs-paper);
+}
+.cs-empathy__cell--thinks {
+    background: linear-gradient(160deg, rgba(122, 62, 191, .05), rgba(122, 62, 191, 0) 60%), var(--cs-paper);
+}
+.cs-empathy__cell--does   {
+    background: linear-gradient(160deg, rgba(26, 127, 75, .05), rgba(26, 127, 75, 0) 60%), var(--cs-paper);
+}
+.cs-empathy__cell--feels  {
+    background: linear-gradient(160deg, rgba(216, 163, 60, .07), rgba(216, 163, 60, 0) 60%), var(--cs-paper);
+}
+
+.cs-empathy__label {
+    margin: 0 0 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-ink);
+}
+
+.cs-empathy ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cs-empathy li {
+    position: relative;
+    padding: 0 0 10px 20px;
+    font-size: .9375rem;
+    line-height: 1.6;
+    color: var(--cs-ink-soft);
+}
+
+.cs-empathy li:last-child {
+    padding-bottom: 0;
+}
+
+.cs-empathy li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .66em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cs-rule);
+}
+
+/* Pains and gains read as a contrasting pair beneath the quadrants. */
+.cs-empathy__split {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.cs-empathy__band {
+    padding: 26px 24px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 16px;
+}
+
+.cs-empathy__band--pains {
+    background: var(--cs-paper-alt);
+}
+
+.cs-empathy__band--gains {
+    background: linear-gradient(160deg, rgba(195, 50, 58, .05), rgba(195, 50, 58, 0) 55%), var(--cs-paper);
+    border-color: rgba(195, 50, 58, .28);
+}
+
+.cs-empathy__band--pains li::before {
+    background: var(--cs-ink-faint);
+}
+.cs-empathy__band--gains li::before {
+    background: var(--cs-accent);
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 899px) {
+    .cs-briefrows__row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 22px 0;
+    }
+
+    .cs-questions,
+    .cs-empathy__grid,
+    .cs-empathy__split {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   Persona cards — research deliverable fields
+   Adds the role tag, the demographic strip and the goals/frustrations split
+   that the original research cards carried.
+   ========================================================================== */
+
+.cs-persona {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 28px;
+    border-radius: 16px;
+    background: var(--cs-paper);
+}
+
+/* Which side of the marketplace this persona sits on. The goals only make
+   sense once you know whether you are reading a buyer or a supplier. */
+.cs-persona__role {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    padding: .28rem .6rem;
+    border-radius: 40px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-accent);
+    background: rgba(195, 50, 58, .08);
+    border: 1px solid rgba(195, 50, 58, .22);
+}
+
+/* Initial rather than a generic silhouette: the research used photographs,
+   and a stock avatar in their place reads as a missing asset. */
+.cs-persona__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(150deg, rgba(195, 50, 58, .14), rgba(195, 50, 58, .04));
+    color: var(--cs-accent);
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+}
+
+.cs-persona__facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 0 0 22px;
+    padding: 16px 0;
+    border-top: 1px solid var(--cs-rule);
+    border-bottom: 1px solid var(--cs-rule);
+}
+
+.cs-persona__facts dt {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-ink-faint);
+    margin-bottom: 4px;
+}
+
+.cs-persona__facts dd {
+    margin: 0;
+    font-size: .875rem;
+    font-weight: 600;
+    color: var(--cs-ink);
+}
+
+/* Goals and frustrations get different bullet colours so the two lists are
+   distinguishable when scanning a column of cards. */
+.cs-persona__group--goals li::before        { background: #1a7f4b; }
+.cs-persona__group--frustrations li::before { background: var(--cs-accent); }
+
+@media (max-width: 767px) {
+    .cs-persona__facts { grid-template-columns: repeat(2, 1fr); }
+    .cs-persona__role { position: static; align-self: flex-start; margin-bottom: 16px; }
+}
+
+/* ==========================================================================
+   Flow diagram
+   Follows the visual language of the delivery documentation: a titled bar per
+   step with its fields listed beneath, numbered sequence badges, diamond
+   decision points and drawn connectors.
+
+   Built in markup, not shipped as an image, so it reflows on a phone, stays
+   selectable and searchable, and can be corrected without a re-export.
+   ========================================================================== */
+
+.cs-flow {
+    /* The project's own accent, not the site's red: this diagram belongs to the
+       e-Procurement work and sits beside a cover using the same purple. */
+    --flow: #6b3fbf;
+    --flow-deep: #52299b;
+    --flow-tint: #f2edfb;
+
+    margin-top: var(--cs-space-l);
+    padding: 40px 32px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 18px;
+    background:
+        linear-gradient(160deg, rgba(107, 63, 191, .05) 0%, rgba(107, 63, 191, 0) 45%),
+        var(--cs-paper);
+}
+
+/* --- Start terminator ---------------------------------------------------- */
+
+.cs-flow__start {
+    position: relative;
+    width: max-content;
+    max-width: 100%;
+    margin: 0 auto 44px;
+    padding: 14px 34px;
+    border-radius: 10px;
+    background: var(--flow);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 10px 24px -14px rgba(107, 63, 191, .8);
+}
+
+/* Stem dropping from the start box into the branch row. */
+.cs-flow__start::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 2px;
+    height: 28px;
+    transform: translateX(-50%);
+    background: var(--flow);
+}
+
+/* --- Branches ------------------------------------------------------------ */
+
+.cs-flow__branches {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+    align-items: start;
+}
+
+.cs-flow__branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cs-flow__label {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--flow);
+    border-radius: 10px;
+    background: var(--cs-paper);
+    color: var(--flow-deep);
+    font-size: .75rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+}
+
+/* --- Connectors ----------------------------------------------------------
+   Every element after the first in a branch grows its own inbound arrow, so
+   adding or removing a step never leaves an orphaned connector behind. */
+
+.cs-flow__branch > * + * {
+    position: relative;
+    margin-top: 38px;
+}
+
+.cs-flow__branch > * + *::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    width: 2px;
+    height: 38px;
+    transform: translateX(-50%);
+    background: var(--flow);
+}
+
+/* Arrowhead sitting at the foot of each connector. */
+.cs-flow__branch > * + *::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    margin-bottom: -1px;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--flow);
+}
+
+/* --- Step node ----------------------------------------------------------- */
+
+.cs-flow__node {
+    width: 100%;
+    border: 2px solid var(--flow);
+    border-radius: 12px;
+    background: var(--cs-paper);
+    overflow: hidden;
+}
+
+.cs-flow__node-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--flow);
+    color: #fff;
+}
+
+.cs-flow__num {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--flow-deep);
+    font-size: 10px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.cs-flow__node-title {
+    font-size: .8125rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.cs-flow__items {
+    margin: 0;
+    padding: 12px;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+}
+
+.cs-flow__items li {
+    padding: 9px 12px;
+    border: 1px solid rgba(107, 63, 191, .3);
+    border-radius: 7px;
+    background: var(--cs-paper);
+    font-size: .8125rem;
+    line-height: 1.4;
+    color: var(--cs-ink-soft);
+    text-align: left;
+}
+
+/* --- Decision ------------------------------------------------------------ */
+
+.cs-flow__decision {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Rotated square for the diamond, with the label counter-rotated back level so
+   it stays readable — a real diamond, not a label that happens to be tilted. */
+.cs-flow__decision-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 116px;
+    height: 116px;
+    padding: 10px;
+    /* Rotating a 116px square paints a 164px box, but the layout box stays
+       116px — the extra 24px per side has to be reserved by hand or the
+       diamond sits on top of whatever follows it. */
+    margin: 24px 0;
+    transform: rotate(45deg);
+    /* Label is counter-rotated back level via the inner span below. */
+    border: 2px solid var(--flow);
+    border-radius: 10px;
+    background: var(--flow-tint);
+    color: var(--flow-deep);
+    font-size: .75rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.cs-flow__options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.cs-flow__option {
+    flex: 1 1 auto;
+    padding: 10px 14px;
+    border: 2px solid var(--flow);
+    border-radius: 8px;
+    background: var(--cs-paper);
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--flow-deep);
+    text-align: center;
+}
+
+/* --- End terminator ------------------------------------------------------ */
+
+.cs-flow__end {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 10px;
+    background: var(--flow-deep);
+    color: #fff;
+    font-size: .8125rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 767px) {
+    .cs-flow { padding: 28px 18px; }
+    .cs-flow__branches { grid-template-columns: 1fr; gap: 40px; }
+    .cs-flow__decision-title { width: 96px; height: 96px; font-size: .6875rem; }
+    .cs-flow__option { flex: 1 1 100%; }
+}
+
+/* ==========================================================================
+   Information architecture
+   Same visual language as the flow diagram, but laid out as a map: sign-in in
+   the middle as the hinge, the supplier system above it, the department system
+   below, and Accounts underneath both because it spans them.
+
+   Built from structure rather than embedded as an export — a 30-module sitemap
+   scaled to a phone screen is unreadable, whereas this reflows.
+   ========================================================================== */
+
+.cs-ia {
+    --ia: #6b3fbf;
+    --ia-deep: #52299b;
+
+    --ia-goods: #3b7ff5;
+    --ia-works: #12a594;
+    --ia-service: #f2820c;
+    --ia-auction: #8b5cf6;
+
+    margin-top: var(--cs-space-l);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* --- Entry hinge --------------------------------------------------------- */
+
+.cs-ia__entry {
+    display: flex;
+    justify-content: center;
+    order: 2;
+}
+
+.cs-ia__entry span {
+    padding: 14px 40px;
+    border: 2px solid var(--ia);
+    border-radius: 40px;
+    background: var(--cs-paper);
+    color: var(--ia-deep);
+    font-size: .8125rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+/* Supplier side sits above the hinge, department side below — matching the
+   source diagram, where sign-in is the pivot between two different systems. */
+.cs-ia__side:first-of-type { order: 1; }
+.cs-ia__side:last-of-type  { order: 3; }
+.cs-ia__shared             { order: 4; }
+
+/* --- Sides --------------------------------------------------------------- */
+
+.cs-ia__side {
+    padding: 30px 26px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 18px;
+    background:
+        linear-gradient(160deg, rgba(107, 63, 191, .04) 0%, rgba(107, 63, 191, 0) 40%),
+        var(--cs-paper);
+}
+
+.cs-ia__role { margin-bottom: 24px; }
+
+.cs-ia__role h3 {
+    margin: 0 0 6px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 18px;
+    border-radius: 8px;
+    background: var(--ia);
+    color: #fff;
+    font-size: .875rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+.cs-ia__role p {
+    margin: 8px 0 0;
+    font-size: .875rem;
+    line-height: 1.6;
+    color: var(--cs-ink-soft);
+}
+
+/* --- Nodes --------------------------------------------------------------- */
+
+.cs-ia__node {
+    border: 1px solid rgba(107, 63, 191, .28);
+    border-radius: 12px;
+    background: var(--cs-paper);
+    padding: 14px 16px;
+}
+
+.cs-ia__node-title {
+    margin: 0 0 10px;
+    font-size: .8125rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--ia-deep);
+}
+
+.cs-ia__node ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cs-ia__node li {
+    position: relative;
+    padding: 3px 0 3px 14px;
+    font-size: .75rem;
+    line-height: 1.5;
+    color: var(--cs-ink-soft);
+}
+
+.cs-ia__node li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .72em;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .5;
+}
+
+/* Supplier management is the gateway node — given weight over the modules. */
+.cs-ia__feature { margin-bottom: 20px; }
+
+.cs-ia__feature .cs-ia__node {
+    border-width: 2px;
+    background: linear-gradient(160deg, rgba(107, 63, 191, .07), rgba(107, 63, 191, 0) 60%), var(--cs-paper);
+}
+
+.cs-ia__modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 14px;
+}
+
+/* --- Department columns -------------------------------------------------- */
+
+/* Each category runs the same four-stage spine. Colour is what makes that
+   repetition visible at a glance rather than something you have to read for. */
+.cs-ia__columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+}
+
+.cs-ia__column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    border: 1px dashed var(--col, var(--ia));
+    border-radius: 14px;
+    background: var(--cs-paper);
+}
+
+.cs-ia__column--goods   { --col: var(--ia-goods); }
+.cs-ia__column--works   { --col: var(--ia-works); }
+.cs-ia__column--service { --col: var(--ia-service); }
+.cs-ia__column--auction { --col: var(--ia-auction); }
+
+.cs-ia__column-label {
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: 30px;
+    background: var(--col);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.cs-ia__column .cs-ia__node {
+    border-color: color-mix(in srgb, var(--col) 34%, transparent);
+}
+
+.cs-ia__column .cs-ia__node-title { color: var(--col); }
+
+/* --- Shared foot --------------------------------------------------------- */
+
+.cs-ia__shared { display: flex; justify-content: center; }
+
+.cs-ia__shared .cs-ia__node {
+    width: min(420px, 100%);
+    border-width: 2px;
+    text-align: center;
+    background: linear-gradient(160deg, rgba(107, 63, 191, .07), rgba(107, 63, 191, 0) 60%), var(--cs-paper);
+}
+
+.cs-ia__shared-note {
+    margin: -4px 0 10px;
+    font-size: .75rem;
+    color: var(--cs-ink-faint);
+}
+
+.cs-ia__shared li { padding-left: 0; }
+.cs-ia__shared li::before { display: none; }
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 767px) {
+    .cs-ia__side { padding: 22px 16px; }
+    .cs-ia__modules { grid-template-columns: 1fr 1fr; }
+    .cs-ia__columns { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 420px) {
+    .cs-ia__modules { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   End-to-end user flows
+   Two journeys drawn on one spine: terminators, steps, decisions that name
+   both outcomes, and parallel category tracks. Connectors are generated, so
+   inserting a step never leaves a stranded arrow.
+   ========================================================================== */
+
+.cs-uf-set {
+    display: grid;
+    gap: 24px;
+    margin-top: var(--cs-space-l);
+}
+
+.cs-uf {
+    --uf: #6b3fbf;
+    --uf-deep: #52299b;
+    --uf-yes: #16a34a;
+    --uf-no: #dc2626;
+
+    --uf-goods: #3b7ff5;
+    --uf-works: #12a594;
+    --uf-service: #f2820c;
+    --uf-auction: #8b5cf6;
+
+    padding: 32px 26px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 18px;
+    background:
+        linear-gradient(165deg, rgba(107, 63, 191, .05) 0%, rgba(107, 63, 191, 0) 42%),
+        var(--cs-paper);
+}
+
+.cs-uf__head { text-align: center; margin-bottom: 30px; }
+
+.cs-uf__actor {
+    display: inline-block;
+    padding: 10px 26px;
+    border-radius: 40px;
+    background: var(--uf);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.cs-uf__head p {
+    margin: 12px auto 0;
+    max-width: 60ch;
+    font-size: .875rem;
+    line-height: 1.6;
+    color: var(--cs-ink-soft);
+}
+
+.cs-uf__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- Connectors ---------------------------------------------------------- */
+
+.cs-uf__body > * + * {
+    position: relative;
+    margin-top: 34px;
+}
+
+.cs-uf__body > * + *::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    width: 2px;
+    height: 34px;
+    transform: translateX(-50%);
+    background: var(--uf);
+}
+
+.cs-uf__body > * + *::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    margin-bottom: -1px;
+    transform: translateX(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--uf);
+}
+
+/* --- Terminators & steps ------------------------------------------------- */
+
+.cs-uf__terminator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 74px;
+    height: 74px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: .8125rem;
+    font-weight: 700;
+}
+
+.cs-uf__terminator--start { background: var(--uf); }
+.cs-uf__terminator--end   { background: var(--uf-deep); }
+
+.cs-uf__step {
+    width: min(420px, 100%);
+    padding: 14px 20px;
+    border: 2px solid var(--uf);
+    border-radius: 10px;
+    background: var(--cs-paper);
+    color: var(--uf-deep);
+    font-size: .875rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* --- Decision ------------------------------------------------------------ */
+
+.cs-uf__decision {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Rotating a square paints a box √2 larger than its layout box, so the extra
+   is reserved with margin — otherwise the diamond overlaps what follows. */
+.cs-uf__diamond {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 124px;
+    height: 124px;
+    margin: 26px 0;
+    padding: 12px;
+    transform: rotate(45deg);
+    border: 2px solid #f2820c;
+    border-radius: 10px;
+    background: #fff7ed;
+    color: #9a4a02;
+    font-size: .6875rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.cs-uf__diamond > * { transform: rotate(-45deg); }
+
+.cs-uf__answers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    width: 100%;
+    margin-top: 18px;
+}
+
+.cs-uf__answer {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--cs-rule);
+    border-radius: 12px;
+    background: var(--cs-paper);
+}
+
+.cs-uf__answer--yes { border-color: rgba(22, 163, 74, .35); }
+.cs-uf__answer--no  { border-color: rgba(220, 38, 38, .3); }
+
+.cs-uf__badge {
+    flex: none;
+    padding: .2rem .6rem;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.cs-uf__answer--yes .cs-uf__badge { background: var(--uf-yes); }
+.cs-uf__answer--no  .cs-uf__badge { background: var(--uf-no); }
+
+.cs-uf__answer-text {
+    font-size: .8125rem;
+    line-height: 1.5;
+    color: var(--cs-ink-soft);
+}
+
+/* --- Parallel tracks ----------------------------------------------------- */
+
+.cs-uf__parallel { width: 100%; }
+
+.cs-uf__parallel-label {
+    display: block;
+    margin-bottom: 14px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--cs-ink-faint);
+}
+
+.cs-uf__tracks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.cs-uf__track {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    border: 1px dashed var(--tone, var(--uf));
+    border-radius: 14px;
+}
+
+.cs-uf__track--goods   { --tone: var(--uf-goods); }
+.cs-uf__track--works   { --tone: var(--uf-works); }
+.cs-uf__track--service { --tone: var(--uf-service); }
+.cs-uf__track--auction { --tone: var(--uf-auction); }
+
+.cs-uf__track-label {
+    align-self: flex-start;
+    padding: 5px 12px;
+    border-radius: 30px;
+    background: var(--tone);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+/* Each step after the first carries a small downward chevron, so the sequence
+   inside a track reads as a sequence and not as a list. */
+.cs-uf__track-step {
+    position: relative;
+    padding: 11px 13px;
+    border: 1px solid color-mix(in srgb, var(--tone) 32%, transparent);
+    border-radius: 9px;
+    background: var(--cs-paper);
+    font-size: .8125rem;
+    line-height: 1.4;
+    color: var(--cs-ink);
+    text-align: center;
+}
+
+.cs-uf__track-step + .cs-uf__track-step { margin-top: 8px; }
+
+.cs-uf__track-step + .cs-uf__track-step::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    margin-bottom: 4px;
+    transform: translateX(-50%);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid var(--tone);
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 767px) {
+    .cs-uf { padding: 24px 16px; }
+    .cs-uf__tracks,
+    .cs-uf__answers { grid-template-columns: 1fr; }
+    .cs-uf__diamond { width: 108px; height: 108px; font-size: .625rem; }
+}
+
+/* Diamond labels sit level inside the rotated shape. The rotation is on the
+   diamond; this rotates its text back so it stays readable. */
+.cs-flow__decision-title > span,
+.cs-uf__diamond > span {
+    display: block;
+    transform: rotate(-45deg);
+}
+
+/* ==========================================================================
+   Design-system collage
+   Twelve delivered style-guide pages. Masonry columns rather than a uniform
+   grid: the pages run from 1.83 to 0.38 in aspect, and equal tiles would crop
+   the tall specification sheets down to their headers.
+   ========================================================================== */
+
+.cs-ds {
+    --ds: #6b3fbf;
+    --ds-deep: #52299b;
+
+    margin-top: var(--cs-space-l);
+    /* Grid, not CSS columns: columns fill top-to-bottom down each column, so
+       the pages would read 1-2-3-4 vertically. A grid lays them out across,
+       which is the order the style guide is numbered in. */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.cs-ds__tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--cs-rule);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--cs-paper);
+    text-decoration: none;
+    transition: border-color .3s ease, box-shadow .3s ease;
+}
+
+/* These are links to the full page, so they keep a hover affordance — unlike
+   the static figures elsewhere on the page, there is something to click. */
+.cs-ds__tile:hover {
+    border-color: rgba(107, 63, 191, .5);
+    box-shadow: 0 18px 40px -28px rgba(82, 41, 155, .6);
+}
+
+.cs-ds__num {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    min-width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 7px;
+    border-radius: 7px;
+    background: var(--ds);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 4px 12px -6px rgba(82, 41, 155, .9);
+}
+
+.cs-ds__tile img {
+    display: block;
+    width: 100%;
+    /* One ratio for every tile, so rows line up. Anchored to the top because
+       that is where each page carries its title — a centred crop of a 3550px
+       specification sheet would show an anonymous slice of its middle. */
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: top;
+}
+
+.cs-ds__meta {
+    /* Pushed to the foot of the tile so caption bars align across a row even
+       when one title wraps to two lines and its neighbour does not. */
+    margin-top: auto;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-top: 1px solid var(--cs-rule);
+    background: var(--cs-paper);
+}
+
+.cs-ds__title {
+    font-size: .8125rem;
+    line-height: 1.45;
+    font-weight: 600;
+    color: var(--cs-ink);
+}
+
+.cs-ds__open {
+    flex: none;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ds);
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.cs-ds__tile:hover .cs-ds__open,
+.cs-ds__tile:focus-visible .cs-ds__open { opacity: 1; }
+
+/* Keyboard users get the same outline the rest of the site uses. */
+.cs-ds__tile:focus-visible {
+    outline: 2px solid var(--ds);
+    outline-offset: 3px;
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+    .cs-ds { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+    .cs-ds { grid-template-columns: 1fr; }
+    /* One per row on a phone, so the tile is wide enough to make a page
+       thumbnail worth showing — a taller crop earns its space here. */
+    .cs-ds__tile img { aspect-ratio: 3 / 2; }
+    /* Touch has no hover, so the affordance is always shown. */
+    .cs-ds__open { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cs-ds__tile,
+    .cs-ds__open { transition: none; }
+}
+
+/* --- Zoomable figures -----------------------------------------------------
+   Dense artwork opts into opening at full size. The frame becomes a link, so
+   it needs the block/positioning a div gave it for free. */
+
+.cs-figure__frame--zoom {
+    display: block;
+    position: relative;
+    cursor: zoom-in;
+}
+
+.cs-figure__zoom {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    padding: 8px 14px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, .5);
+    background: rgba(16, 16, 20, .6);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    backdrop-filter: blur(8px) saturate(140%);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.cs-figure__frame--zoom:hover .cs-figure__zoom,
+.cs-figure__frame--zoom:focus-visible .cs-figure__zoom { opacity: 1; }
+
+.cs-figure__frame--zoom:focus-visible {
+    outline: 2px solid var(--cs-accent);
+    outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+    /* Touch has no hover, and this is exactly where the affordance matters
+       most — the artwork is least legible at this size. */
+    .cs-figure__zoom { opacity: 1; right: 10px; bottom: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cs-figure__zoom { transition: none; }
+}

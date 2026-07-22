@@ -1,0 +1,466 @@
+.vlt-custom--8131 {
+    bottom: -250px;
+    left: -200px;
+    max-width: 550px;
+}
+
+.vlt-custom--1451 {
+    top: -25px;
+    left: -30px;
+    width: 256px;
+    height: 208px;
+}
+
+@media only screen and (max-width: 575px) {
+    .vlt-custom--1451 {
+        top: -100px;
+        left: -100px;
+    }
+}
+
+.vlt-custom--1512 {
+    bottom: -28vw;
+    left: 50vw;
+    width: 75vw;
+    height: 75vw;
+    background-size: cover;
+}
+
+.vlt-custom--4124 {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40vw;
+    height: 100%;
+    background-position: top left;
+    background-size: cover;
+}
+
+@media only screen and (max-width: 991px) {
+    .vlt-custom--4124 {
+        right: 0;
+        width: 50vw;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .vlt-custom--4124 {
+        right: -50vw;
+        width: 100vw;
+    }
+}
+
+.vlt-custom--1259 {
+    top: -20px;
+    right: -5px;
+    width: 256px;
+    height: 208px;
+}
+
+.vlt-custom--2355 {
+    bottom: -250px;
+    left: 0;
+    width: 389px;
+    height: 550px;
+}
+
+/* ==========================================================================
+   Site font — Manrope (open-source, self-hosted in assets/fonts/Manrope/).
+   Overrides the template's --pf here rather than editing the minified
+   vlt-main.min.css. Gilroy and Inter remain in the stack as fallbacks — both
+   are still installed, so switching back is just reordering this one line.
+   ========================================================================== */
+:root {
+    --pf: 'Manrope', 'Gilroy', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+}
+
+body,
+input,
+textarea,
+select,
+button {
+    font-family: var(--pf);
+}
+
+/* ==========================================================================
+   Global container width.
+   Bootstrap caps .container at 1140px; widen it site-wide so the layout fills
+   more of a large screen instead of floating with wide side margins. Safe from
+   overflow because Bootstrap's .container is width:100% (it only caps, never
+   forces), so on smaller screens it just fills the viewport.
+   ========================================================================== */
+@media (min-width: 1200px) {
+    .container { max-width: 1680px; }
+}
+
+/* ==========================================================================
+   Selected Works — pinned two-column scroll.
+   Left aside is JS-pinned (works-pin.js) while the right card list scrolls
+   past inside the pp-scrollable panel — an agntix-style "recent projects"
+   effect adapted to the fullpage slider. Light section, site tokens.
+   ========================================================================== */
+
+/* This panel scrolls as a tall column, so top-align it instead of centering.
+   The template centers with display:table wrappers — those also break CSS
+   sticky, so both are flattened to block here. */
+.vlt-wp-section .vlt-section__vertical-align { display: block; height: auto; overflow: visible; }
+.vlt-wp-section .vlt-section__content { display: block; height: auto; padding: 0; }
+
+/* Plain wrapper — the SECTION is the scroller (this pagePiling build only
+   honours pp-scrollable on the section itself). The aside's position:sticky
+   attaches to the section's native scroll, so scrolling cannot jitter. */
+.vlt-wp-scroller { height: auto; overflow: visible; }
+
+/* Inherits the global 1400px container width; only the vertical padding differs. */
+.vlt-wp-scroller > .container {
+    padding-top: 116px;
+    padding-bottom: 72px;
+}
+
+.vlt-works__eyebrow {
+    display: block;
+    margin-bottom: .75rem;
+    font-size: .8125rem;
+    font-weight: 600;
+    line-height: 1.6;
+    letter-spacing: .01em;
+    text-transform: uppercase;
+    color: var(--p1);
+}
+
+.vlt-wp {
+    display: grid;
+    grid-template-columns: 44% 1fr;
+    gap: 56px;
+    align-items: start;
+}
+
+/* --- Pinned aside --------------------------------------------------------- */
+
+.vlt-wp__aside {
+    position: sticky;
+    top: 116px;          /* clears the fixed navbar */
+    align-self: start;   /* natural height, so it can travel within the row */
+    padding-top: 8px;
+}
+
+/* Scoped to the aside so it outranks the template's `p:last-of-type
+   { margin-bottom: 0 }`, which would otherwise flatten the gap. */
+.vlt-wp__aside .vlt-wp__intro {
+    /* Bottom margin = 1 line-break (28px line-height) before the button. */
+    margin: 1.25rem 0 1.75rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    max-width: 46ch;
+}
+
+.vlt-wp__all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    border: 1px solid rgba(16, 16, 20, .2);
+    border-radius: 4px;
+    font-size: .8125rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #101014;
+    text-decoration: none;
+    transition: background .3s ease, color .3s ease, border-color .3s ease;
+}
+
+.vlt-wp__all:hover { background: var(--p1); border-color: var(--p1); color: #fff; }
+.vlt-wp__all-icon { transition: transform .3s ease; }
+.vlt-wp__all:hover .vlt-wp__all-icon { transform: translateX(4px); }
+
+/* --- Card list ------------------------------------------------------------ */
+
+.vlt-wp__list {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* Each card is a defined bordered box (per the sketch). The card sits on a
+   white section, so the border + a faint resting shadow give it definition. */
+.vlt-wp__card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 14px;
+    border: 1px solid rgba(16, 16, 20, .2);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 2px 10px -6px rgba(16, 16, 20, .18);
+    transition: border-color .3s ease, box-shadow .3s ease;
+}
+
+.vlt-wp__card:hover {
+    color: inherit;
+    border-color: rgba(16, 16, 20, .38);
+    box-shadow: 0 16px 36px -18px rgba(16, 16, 20, .32);
+}
+
+.vlt-wp__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #101014;
+}
+
+.vlt-wp__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .9s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Hover shade. Hidden at rest so the artwork reads at full brightness, then
+   fades in to darken the image behind the arrow that slides in at the same
+   moment. Opacity is animated rather than background-color so the transition
+   stays on the compositor and does not repaint the card. */
+.vlt-wp__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: rgba(16, 16, 20, .55);
+    opacity: 0;
+    transition: opacity .45s ease;
+}
+
+.vlt-wp__card:hover .vlt-wp__media::after { opacity: 1; }
+
+/* Badges and arrow sit above the shade, or it dims them along with the image. */
+.vlt-wp__num,
+.vlt-wp__tag,
+.vlt-wp__media-arrow { z-index: 2; }
+
+.vlt-wp__card:hover .vlt-wp__media img { transform: scale(1.05); }
+
+/* Frosted-glass treatment shared by both badges on the image. This is what keeps
+   the white text legible over bright artwork, so the image itself needs no dark
+   overlay. The blur samples whatever is behind it, so it adapts per card instead
+   of being tuned to one image. The fill is dark rather than clear because the
+   text is white and blur alone does not guarantee contrast on a white photo. */
+.vlt-wp__num,
+.vlt-wp__tag {
+    position: absolute;
+    top: 14px;
+    padding: .3rem .7rem;
+    border: 1px solid rgba(255, 255, 255, .5);
+    border-radius: 40px;
+    color: #fff;
+    background: rgba(16, 16, 20, .42);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    backdrop-filter: blur(8px) saturate(140%);
+    box-shadow: 0 2px 10px -4px rgba(16, 16, 20, .45);
+    white-space: nowrap;
+}
+
+/* Number sits top-left. */
+.vlt-wp__num {
+    left: 16px;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Year sits top-right. */
+.vlt-wp__tag {
+    right: 16px;
+    font-size: .6875rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+}
+
+/* Arrow on the image, slides in on hover (the → in the sketch). */
+.vlt-wp__media-arrow {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--p1);
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1;
+    opacity: 0;
+    transform: translateY(10px) scale(.85);
+    transition: opacity .35s ease, transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+
+.vlt-wp__card:hover .vlt-wp__media-arrow { opacity: 1; transform: translateY(0) scale(1); }
+
+.vlt-wp__info { padding: 16px 6px 6px; }
+
+/* Sample chip — moved below the image, on the light info area. */
+.vlt-wp__flag {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: .25rem .55rem;
+    border: 1px solid rgba(16, 16, 20, .2);
+    border-left: 3px solid var(--p1);
+    font-size: .625rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--p1);
+}
+
+/* Meta line: category · stat  ("Government · B2G · 2,000+ screens"). */
+.vlt-wp__cat {
+    display: block;
+    margin-bottom: 8px;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--p1);
+}
+
+.vlt-wp__title {
+    margin: 0 0 14px;
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    font-weight: 700;
+    color: #101014;
+}
+
+/* Divider line between title and button. */
+.vlt-wp__rule {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin-bottom: 14px;
+    background: rgba(16, 16, 20, .14);
+}
+
+/* Bordered button (the "Button" box in the sketch). */
+.vlt-wp__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border: 1px solid rgba(16, 16, 20, .25);
+    border-radius: 4px;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #101014;
+    transition: background .3s ease, color .3s ease, border-color .3s ease;
+}
+
+.vlt-wp__card:hover .vlt-wp__btn { background: var(--p1); border-color: var(--p1); color: #fff; }
+.vlt-wp__btn-icon { transition: transform .3s ease; }
+.vlt-wp__card:hover .vlt-wp__btn-icon { transform: translateX(4px); }
+
+/* --- Stacked below the 2-column breakpoint (no pin) ----------------------- */
+
+@media only screen and (max-width: 991px) {
+    .vlt-wp { grid-template-columns: 1fr; gap: 40px; }
+    .vlt-wp__aside { position: static; }
+    .vlt-wp-scroller > .container { padding-top: 100px; padding-bottom: 60px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vlt-wp__media img,
+    .vlt-wp__media::after,
+    .vlt-wp__all-icon,
+    .vlt-wp__media-arrow,
+    .vlt-wp__btn,
+    .vlt-wp__btn-icon { transition: none; }
+    .vlt-wp__card:hover .vlt-wp__media img { transform: none; }
+    .vlt-wp__media-arrow { opacity: 1; transform: none; }
+}
+
+/* ==========================================================================
+   Education entries — legibility fix.
+   The timeline-item component is styled for the DARK Experience section, so
+   its title and date render white. Reused on the LIGHT Education section that
+   made them invisible (white-on-white). Re-colour them here, Education only,
+   so Experience is unaffected.
+   ========================================================================== */
+
+[data-anchor="Education"] .vlt-timeline-item__title {
+    color: #101014;          /* black, as requested */
+    font-weight: 600;        /* semi-bold */
+}
+
+[data-anchor="Education"] .vlt-timeline-item__year {
+    color: var(--p1);        /* was invisible white; brand red reads as a date label */
+}
+
+[data-anchor="Education"] .vlt-timeline-item__text {
+    color: #5b5b66;          /* was a faint 2.85:1 grey; darker for AA legibility */
+}
+
+/* ==========================================================================
+   Accessibility (UX book, ch. Accessibility p.153).
+   - Skip link: keyboard/SR users jump past the nav to content.
+   - Visible focus ring: keyboard users can see where they are (many templates
+     kill :focus; this restores a clear, on-brand ring without touching mouse UX).
+   ========================================================================== */
+
+.vlt-skip-link {
+    position: fixed;
+    top: -60px;
+    left: 12px;
+    z-index: 2000;
+    padding: 10px 18px;
+    background: var(--p1);
+    color: #fff;
+    font-size: .875rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: top .2s ease;
+}
+
+.vlt-skip-link:focus { top: 12px; color: #fff; }
+
+/* Only shows on keyboard focus, never on mouse click — so it never distracts. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--p1);
+    outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Hero — intro line, headline and subtitle sizing.
+   ========================================================================== */
+
+/* Greeting line — 16px (overrides the small vlt-display-1 default). */
+.vlt-hero-intro { font-size: 16px; }
+
+/* Main headline — up to 80px, scaling down on small screens. */
+[data-anchor="Home"] .vlt-large-heading {
+    font-size: clamp(2.75rem, 7vw, 80px);
+    line-height: 1.18;
+}
+
+/* Subtitle under the headline — 16px, uppercase. */
+.vlt-hero-subtitle {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}

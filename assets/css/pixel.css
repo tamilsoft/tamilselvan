@@ -1,0 +1,506 @@
+/* =============================================================================
+   Albus — the site's design bot, plus interaction effects.
+   Add-on layer over the existing theme: every class is prefixed px- so nothing
+   here can collide with app.css. Remove this file and pixel.js to turn it off.
+   ============================================================================= */
+
+:root {
+    --px-brand: #c3323a;
+    --px-brand-ink: #9a262d;
+    --px-night: #0e0e0f;
+    --px-paper: #ffffff;
+    --px-sunk: #f2f0ed;
+    --px-line: #e6e2dc;
+    --px-ink: #141414;
+    --px-ink-2: #5a5650;
+    --px-ok: #12805c;
+    --px-blue: #2e7bf6;
+    --px-mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+    --px-spring: cubic-bezier(.34, 1.56, .64, 1);
+    --px-decel: cubic-bezier(.05, .7, .1, 1);
+}
+
+/* ---------- Albus: pixel art ---------------------------------------------- */
+/* A 12×12 grid drawn with crisp edges. Moods and walk frames swap whole
+   pixel groups on and off; nothing is scaled or morphed, so it stays pixel art. */
+
+.px-bot { display: block; overflow: visible; image-rendering: pixelated; }
+.px-bot .px-alt, .px-bot .px-zzz, .px-bot .px-arm, .px-bot .px-lb { display: none; }
+.px-bot .px-bulb { animation: px-bulb 1.6s steps(1) infinite; }
+.px-bot .px-eye, .px-bot .px-pupil { animation: px-blink 5s steps(1) infinite; }
+.px-bot .px-mouth { transform-box: fill-box; transform-origin: 50% 0; }
+
+@keyframes px-bulb { 50% { fill: #fff6c2; } }
+@keyframes px-blink { 0%, 100% { opacity: 1; } 94% { opacity: 0; } 97% { opacity: 1; } }
+@keyframes px-mouth { 50% { transform: scaleY(2); } }
+@keyframes px-arm { 50% { transform: translateY(1px); } }
+@keyframes px-zzz { 0% { opacity: 0; transform: translate(0, 0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(1px, -3px); } }
+@keyframes px-hop { 40% { transform: translateY(-14px); } }
+@keyframes px-bob { 50% { transform: translateY(-2px); } }
+@keyframes px-land { 0% { transform: scale(1.18, .8); } 100% { transform: scale(1, 1); } }
+
+.px-bot.is-talk .px-mouth { animation: px-mouth .24s steps(1) infinite; }
+.px-bot.is-wave .px-arm { display: inline; animation: px-arm .3s steps(1) infinite; }
+.px-bot.is-wave .px-ear-r { display: none; }
+.px-bot.is-hop { animation: px-hop .45s cubic-bezier(.3, 0, .4, 1); }
+/* happy: ^ ^ eyes */
+.px-bot.is-happy .px-eye, .px-bot.is-happy .px-pupil { display: none; }
+.px-bot.is-happy .px-alt--happy { display: inline; }
+/* wow: blank eyes, open mouth */
+.px-bot.is-wow .px-pupil, .px-bot.is-wow .px-mouth { display: none; }
+.px-bot.is-wow .px-alt--o { display: inline; }
+/* sleep: closed eyes, zzz, dim antenna */
+.px-bot.is-sleep .px-eye, .px-bot.is-sleep .px-pupil, .px-bot.is-sleep .px-mouth { display: none; }
+.px-bot.is-sleep .px-alt--sleep { display: inline; }
+.px-bot.is-sleep .px-zzz { display: inline; animation: px-zzz 2.2s steps(4) infinite; }
+.px-bot.is-sleep .px-zzz:last-of-type { animation-delay: 1.1s; }
+.px-bot.is-sleep .px-bulb { animation: none; fill: #5a171b; }
+
+/* ---------- Albus walking the page ----------------------------------------- */
+
+.px-walker {
+    position: fixed; left: 0; top: 0; z-index: 9990;
+    width: 48px; height: 48px; margin: 0; padding: 0; border: 0; background: none; cursor: pointer;
+    transform-origin: 50% 100%; will-change: transform;
+    /* A one-pixel white outline (four hard shadows) so he reads on the red
+       hero as well as on white sections, plus a small ground shadow. */
+    filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff) drop-shadow(0 3px 0 rgba(0, 0, 0, .22));
+    -webkit-tap-highlight-color: transparent;
+}
+.px-walker .px-bot { width: 100%; height: 100%; transform-origin: 50% 100%; }
+.px-walker:focus-visible { outline: 2px solid #c3323a; outline-offset: 3px; border-radius: 6px; }
+/* Two-frame walk: swap the leg groups on each step. */
+.px-walker.is-step .px-la { display: none; }
+.px-walker.is-step .px-lb { display: inline; }
+.px-walker.is-idle .px-bot:not(.is-hop) { animation: px-bob 1.2s steps(1) infinite; }
+.px-walker.is-land .px-bot { animation: px-land .22s ease-out; }
+.px-walker:hover .px-bot { filter: brightness(1.08); }
+
+/* ---------- Loading screen ------------------------------------------------- */
+/* html.px-preload is set by a tiny script in <head> before first paint, so the
+   page never flashes before the loader appears. pixel.js removes it. */
+
+html.px-preload, html.px-preload body { background: #0e0e0f !important; }
+html.px-preload body > *:not(.px-loader) { visibility: hidden !important; }
+
+.px-loader {
+    position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; overflow: hidden;
+    background: radial-gradient(ellipse at 50% 55%, #1b1b1e 0%, #0e0e0f 62%); color: #fff;
+    cursor: pointer; visibility: visible;
+    transition: opacity .6s ease, visibility .6s;
+}
+/* A faint pixel grid that drifts, so the screen is never completely still. */
+.px-loader::before {
+    content: ""; position: absolute; inset: -40px; pointer-events: none; opacity: .5;
+    background-image: linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
+    background-size: 24px 24px; animation: px-drift 12s linear infinite;
+}
+@keyframes px-drift { to { transform: translate(24px, 24px); } }
+.px-loader.is-out { opacity: 0; visibility: hidden; }
+.px-loader.is-out .px-loader__in { transform: translateY(-18px) scale(.98); }
+
+.px-loader__in { position: relative; display: grid; justify-items: center; gap: 18px; padding: 24px; text-align: center; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+
+/* The track: Albus stands on the bar and runs along it. */
+.px-loader__track { position: relative; width: 376px; padding-top: 76px; }
+.px-loader__bot { position: absolute; left: 0; bottom: 18px; width: 72px; height: 72px; margin-left: -10px; will-change: transform; }
+.px-loader__bot .px-bot { width: 100%; height: 100%; transform-origin: 50% 100%; }
+.px-loader__bot .px-bot.is-sleep { animation: px-breathe 2.4s ease-in-out infinite; }
+@keyframes px-breathe { 50% { transform: scale(1.03, .96); } }
+/* Walking on the bar: leg frames take turns, and the body bobs a pixel. */
+.px-loader .px-bot.is-walking { animation: px-bob .28s steps(1) infinite; }
+.px-loader .px-bot.is-walking .px-la { animation: px-leg-a .28s steps(1) infinite; }
+.px-loader .px-bot.is-walking .px-lb { display: inline; animation: px-leg-b .28s steps(1) infinite; }
+@keyframes px-leg-a { 50% { opacity: 0; } }
+@keyframes px-leg-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+/* Finale: a crouch, then a leap up and out of frame. */
+.px-loader__bot.is-leap .px-bot { animation: px-leap .5s cubic-bezier(.5, -0.3, .7, .2) forwards; }
+@keyframes px-leap { 0% { transform: scale(1); } 25% { transform: scale(1.15, .8); } 100% { transform: translateY(-420px) scale(.9, 1.15); opacity: 0; } }
+
+.px-loader__bar { display: flex; gap: 4px; height: 14px; }
+.px-loader__bar i { flex: 1; height: 14px; background: #2a2a2c; transform-origin: 50% 100%; }
+.px-loader__bar i.on { background: #c3323a; animation: px-block .32s cubic-bezier(.34, 1.56, .64, 1); }
+.px-loader__bar i.head { animation: px-head .5s steps(1) infinite; }
+@keyframes px-block { 0% { transform: scaleY(.3); background: #ffd84d; } 60% { background: #e0656c; } 100% { transform: scaleY(1); } }
+@keyframes px-head { 50% { background: #4a2a2d; } }
+.px-loader.is-done .px-loader__bar i { animation: px-flash .45s ease; }
+@keyframes px-flash { 40% { background: #ffd84d; } }
+
+.px-loader__txt { display: flex; justify-content: space-between; width: 376px; margin: 0; font: 500 13px/1.4 var(--px-mono); letter-spacing: .04em; text-transform: uppercase; color: #9a9a9a; }
+.px-loader__txt b { color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+.px-loader__stage.is-swap { animation: px-swap .35s ease; }
+@keyframes px-swap { 0% { opacity: 0; transform: translateY(6px); } }
+.px-loader__hint { margin: 6px 0 0; font: 12px/1.4 var(--px-mono); color: #5f5f62; animation: px-hint 2.4s ease-in-out infinite; }
+@keyframes px-hint { 50% { opacity: .45; } }
+
+/* Entrance: Albus drops in, the bar draws itself block by block, text fades up. */
+/* (Albus's container is moved along the bar with `transform` by pixel.js, so
+   his drop-in uses the separate `translate` property and the two never clash.) */
+.px-loader__bot { transition: opacity .45s ease, translate .7s cubic-bezier(.34, 1.56, .64, 1); }
+.px-loader:not(.is-in) .px-loader__bot { opacity: 0; translate: 0 -70px; }
+.px-loader.is-in .px-loader__bar i:not(.on) { animation: px-draw .4s cubic-bezier(.2, .8, .2, 1) both; animation-delay: var(--d, 0s); }
+@keyframes px-draw { 0% { transform: scaleY(0); opacity: 0; } }
+.px-loader.is-in .px-loader__txt, .px-loader.is-in .px-loader__hint { animation: px-rise .6s .35s cubic-bezier(.2, .8, .2, 1) both; }
+.px-loader.is-in .px-loader__hint { animation: px-rise .6s .5s cubic-bezier(.2, .8, .2, 1) both, px-hint 2.4s 1.1s ease-in-out infinite; }
+@keyframes px-rise { 0% { opacity: 0; transform: translateY(10px); } }
+
+/* The page fades in as the loader fades out (opacity only: a transform here
+   would break the theme's fixed-position layers). */
+html.px-reveal body > *:not(.px-loader):not(.px-walker):not(.px-dock) { animation: px-reveal .7s ease both; }
+@keyframes px-reveal { 0% { opacity: 0; } }
+
+@media (max-width: 575px) {
+    .px-loader__track, .px-loader__txt { width: min(300px, calc(100vw - 48px)); }
+    .px-loader__track { padding-top: 64px; }
+    .px-loader__bot { width: 60px; height: 60px; }
+    .px-loader__bar { gap: 3px; height: 12px; }
+    .px-loader__bar i { height: 12px; }
+}
+/* ---------- Speech bubble (follows Albus) ---------------------------------- */
+/* pixel.js moves .px-dock every frame so the bubble sits over his head. */
+
+.px-dock { position: fixed; left: 0; top: 0; z-index: 9991; pointer-events: none; will-change: transform; }
+.px-ring { display: none; width: 100%; height: 3px; margin-top: 10px; background: #f0e6e6; border-radius: 2px; overflow: hidden; }
+.px-dock.is-touring .px-ring { display: block; }
+.px-ring__arc { transition: width .4s; }
+.px-bubble {
+    pointer-events: auto; position: relative; max-width: 280px;
+    background: var(--px-paper); color: var(--px-ink);
+    border-radius: 18px 18px 4px 18px; padding: 12px 14px 12px 16px;
+    font-size: 14px; line-height: 1.45; font-weight: 500;
+    box-shadow: 0 16px 40px -12px rgba(0, 0, 0, .35), 0 0 0 1px rgba(0, 0, 0, .05);
+    opacity: 0; transform: translateY(8px) scale(.94); transform-origin: bottom right;
+    transition: opacity .25s, transform .35s var(--px-spring);
+}
+.px-bubble.is-in { opacity: 1; transform: none; }
+.px-bubble__k {
+    display: block; font-family: var(--px-mono); font-size: 10px; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--px-brand); margin-bottom: 3px; font-weight: 600;
+}
+.px-bubble__x {
+    position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; border-radius: 50%;
+    border: 0; background: var(--px-night); color: #fff; font-size: 13px; line-height: 22px; padding: 0; cursor: pointer;
+}
+.px-bubble__act { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.px-bubble__act button {
+    border: 0; background: var(--px-brand); color: #fff; border-radius: 999px;
+    padding: 5px 12px; font-size: 12px; font-weight: 700; cursor: pointer;
+}
+.px-bubble__act button.px-ghost { background: var(--px-sunk); color: var(--px-ink); }
+
+/* ---------- Chat panel -------------------------------------------------------- */
+
+.px-chat {
+    position: fixed; right: 24px; bottom: 24px; z-index: 9995;
+    width: min(390px, calc(100vw - 32px)); max-height: min(600px, calc(100vh - 110px));
+    display: flex; flex-direction: column;
+    background: var(--px-paper); color: var(--px-ink);
+    border-radius: 26px; overflow: hidden;
+    box-shadow: 0 40px 80px -24px rgba(0, 0, 0, .5), 0 0 0 1px rgba(0, 0, 0, .06);
+    transform-origin: bottom right; transform: scale(.9) translateY(12px);
+    opacity: 0; visibility: hidden;
+    transition: transform .4s var(--px-spring), opacity .25s, visibility .4s;
+    font-size: 14px; line-height: 1.5; text-align: left;
+}
+.px-chat.is-open { transform: none; opacity: 1; visibility: visible; }
+.px-chat * { box-sizing: border-box; }
+.px-chat__head {
+    display: flex; align-items: center; gap: 12px; padding: 14px 14px 14px 16px;
+    background: var(--px-night); color: #fff;
+}
+.px-chat__head .px-bot { width: 40px; height: 40px; flex: none; }
+.px-chat__who b { display: block; font-size: 16px; letter-spacing: -.01em; }
+.px-chat__who small { font-family: var(--px-mono); font-size: 10px; color: #8d8d8d; letter-spacing: .04em; }
+.px-chat__who small i { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #2fd18f; margin-right: 5px; vertical-align: 1px; }
+.px-chat__tools { margin-left: auto; display: flex; gap: 6px; }
+.px-icon {
+    width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer;
+    background: rgba(255, 255, 255, .1); color: #fff; font-size: 14px; line-height: 32px; padding: 0;
+    transition: background .2s;
+}
+.px-icon:hover { background: rgba(255, 255, 255, .2); }
+.px-icon[aria-pressed="true"] { background: var(--px-brand); }
+
+.px-chat__log { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; overscroll-behavior: contain; }
+.px-msg { max-width: 86%; padding: 10px 14px; border-radius: 18px; animation: px-pop .35s var(--px-spring); word-wrap: break-word; }
+.px-msg--bot { background: var(--px-sunk); border-bottom-left-radius: 5px; align-self: flex-start; }
+.px-msg--me { background: var(--px-ink); color: #fff; border-bottom-right-radius: 5px; align-self: flex-end; }
+.px-msg a { color: var(--px-brand-ink); font-weight: 700; text-decoration: underline; }
+.px-msg .px-cards { display: grid; gap: 6px; margin-top: 8px; }
+.px-msg .px-cards button {
+    text-align: left; border: 1px solid var(--px-line); background: var(--px-paper); border-radius: 12px;
+    padding: 8px 10px; font-size: 13px; cursor: pointer; transition: border-color .2s, transform .2s;
+}
+.px-msg .px-cards button:hover { border-color: var(--px-brand); transform: translateX(3px); }
+.px-msg .px-cards b { display: block; font-size: 13px; }
+.px-msg .px-cards span { color: var(--px-ink-2); font-size: 12px; }
+@keyframes px-pop { from { opacity: 0; transform: translateY(6px) scale(.97); } }
+
+.px-typing { display: inline-flex; gap: 4px; padding: 4px 0; }
+.px-typing i { width: 6px; height: 6px; border-radius: 50%; background: #9a958e; animation: px-dots 1s infinite; }
+.px-typing i:nth-child(2) { animation-delay: .15s; }
+.px-typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes px-dots { 50% { transform: translateY(-4px); opacity: .4; } }
+
+.px-chat__chips { display: flex; gap: 6px; overflow-x: auto; padding: 10px 16px 0; scrollbar-width: none; }
+.px-chat__chips::-webkit-scrollbar { display: none; }
+.px-chip {
+    flex: none; border: 1px solid var(--px-line); background: var(--px-paper); color: var(--px-ink);
+    border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;
+    transition: background .2s, color .2s, border-color .2s;
+}
+.px-chip:hover { background: var(--px-ink); color: #fff; border-color: var(--px-ink); }
+.px-chip--brand { border-color: var(--px-brand); color: var(--px-brand); }
+
+.px-chat__form { display: flex; gap: 8px; padding: 12px 16px 16px; }
+.px-chat__form input {
+    flex: 1; min-width: 0; border: 1.5px solid var(--px-line); border-radius: 999px; padding: 10px 16px;
+    font: inherit; font-size: 14px; color: var(--px-ink); background: var(--px-sunk); outline: none;
+    -webkit-user-select: text; user-select: text;
+}
+.px-chat__form input:focus { border-color: var(--px-ink); background: var(--px-paper); }
+.px-chat__form button {
+    flex: none; width: 42px; height: 42px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--px-brand); color: #fff; font-size: 18px; transition: transform .25s var(--px-spring);
+}
+.px-chat__form button:hover { transform: scale(1.08) rotate(-8deg); }
+
+/* ---------- Interaction effects ------------------------------------------- */
+
+/* Hero heading: each letter reacts to the pointer */
+.px-letter { display: inline-block; transition: transform .45s var(--px-spring), color .25s; will-change: transform; }
+.px-letter:hover { transform: translateY(-.14em) rotate(-6deg); color: #ffd84d; }
+
+/* Figma-style selection frame on one hero word */
+.px-sel { position: relative; display: inline-block; white-space: nowrap; }
+.px-sel__box { position: absolute; inset: .06em -.08em .02em; border: 1.5px solid var(--px-blue); pointer-events: none; opacity: 0; transition: opacity .4s; }
+.px-sel.is-on .px-sel__box { opacity: 1; }
+.px-sel__box i { position: absolute; width: 9px; height: 9px; background: #fff; border: 1.5px solid var(--px-blue); }
+.px-sel__box i:nth-child(1) { left: -5px; top: -5px; }
+.px-sel__box i:nth-child(2) { right: -5px; top: -5px; }
+.px-sel__box i:nth-child(3) { left: -5px; bottom: -5px; }
+.px-sel__box i:nth-child(4) { right: -5px; bottom: -5px; }
+.px-sel__tag, .px-sel__dim {
+    position: absolute; font-family: var(--px-mono); font-size: 11px; font-weight: 500; letter-spacing: 0; line-height: 1.4;
+    color: #fff; background: var(--px-blue); padding: 1px 6px; border-radius: 4px; white-space: nowrap; text-transform: none;
+}
+.px-sel__tag { top: -22px; left: -2px; }
+.px-sel__dim { top: -22px; right: -2px; }
+
+/* Figma-style frame over images on hover (case studies) */
+.px-frame { position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: 0; transition: opacity .25s; }
+.px-frame.is-on { opacity: 1; }
+.px-frame .px-sel__box { opacity: 1; inset: 0; }
+.px-frame__tag, .px-frame__dim {
+    position: absolute; top: 8px; font-family: var(--px-mono); font-size: 11px; line-height: 1.4; letter-spacing: 0;
+    color: #fff; background: var(--px-blue); padding: 2px 7px; border-radius: 4px; white-space: nowrap;
+}
+.px-frame__tag { left: 8px; max-width: calc(100% - 110px); overflow: hidden; text-overflow: ellipsis; }
+.px-frame__dim { right: 8px; }
+
+/* Multiplayer-style cursor on the hero */
+.px-cursor { position: absolute; left: 0; top: 0; z-index: 5; pointer-events: none; transition: transform 1.6s var(--px-decel); }
+.px-cursor span {
+    position: absolute; left: 14px; top: 16px; background: #7a3cf0; color: #fff; font-size: 11px; font-weight: 700;
+    padding: 2px 8px; border-radius: 0 8px 8px 8px; white-space: nowrap; letter-spacing: 0; line-height: 1.5;
+}
+
+/* Tilt + glare on work cards */
+.px-tilt { transform-style: preserve-3d; transition: transform .5s var(--px-decel); will-change: transform; }
+.px-tilt.is-tilting { transition: transform .08s linear; }
+.px-glare { position: absolute; inset: 0; pointer-events: none; border-radius: inherit; z-index: 3; opacity: 0; transition: opacity .3s; mix-blend-mode: soft-light; }
+.px-tilt:hover .px-glare { opacity: 1; }
+
+/* Click spark */
+.px-spark { position: fixed; z-index: 9999; width: 6px; height: 6px; border-radius: 2px; pointer-events: none; }
+
+/* Layout grid overlay (press G) */
+.px-grid { position: fixed; inset: 0; z-index: 9980; pointer-events: none; opacity: 0; transition: opacity .3s; }
+.px-grid.is-on { opacity: 1; }
+.px-grid__cols { height: 100%; max-width: 1170px; margin: 0 auto; padding: 0 15px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
+.px-grid__cols i { background: rgba(195, 50, 58, .07); border-left: 1px solid rgba(195, 50, 58, .25); border-right: 1px solid rgba(195, 50, 58, .25); }
+.px-grid__label { position: fixed; left: 50%; top: 84px; transform: translateX(-50%); font-family: var(--px-mono); font-size: 11px; background: var(--px-brand); color: #fff; padding: 4px 10px; border-radius: 6px; }
+
+/* Toast */
+.px-toast {
+    position: fixed; left: 50%; bottom: 30px; z-index: 9999; transform: translate(-50%, 20px);
+    background: var(--px-night); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 14px; font-weight: 600;
+    opacity: 0; pointer-events: none; transition: opacity .3s, transform .35s var(--px-spring);
+}
+.px-toast.is-in { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- Contact card -------------------------------------------------- */
+
+/* Colours, type and radii follow the theme (app.css), not Albus:
+   theme red #c3323a, Manrope only, 16px cards, 4px buttons. */
+.px-contact {
+    --px-theme: #c3323a;
+    position: relative; overflow: hidden; isolation: isolate;
+    background: var(--px-theme); color: #fff; text-align: left; font-family: inherit;
+    border-radius: 16px; padding: clamp(28px, 5vw, 64px) clamp(24px, 5vw, 72px);
+    box-shadow: 0 40px 90px -30px rgba(0, 0, 0, .65);
+}
+/* Background: the theme's own contour-map pattern (cartographer.png, which the
+   theme used on its red testimonial cards), faded out behind the text on the
+   left so the copy stays crisp, drifting very slowly. On top of it, the
+   theme's plus-grid in the top-right corner and a soft glow bottom-left. */
+.px-contact::before {
+    content: ""; position: absolute; z-index: -1; inset: 0;
+    background: url(../img/root/cartographer.png) 0 0 / 520px repeat;
+    opacity: .5; mix-blend-mode: multiply;
+    -webkit-mask-image: linear-gradient(100deg, rgba(0, 0, 0, .25) 0%, rgba(0, 0, 0, .25) 30%, #000 75%);
+    mask-image: linear-gradient(100deg, rgba(0, 0, 0, .25) 0%, rgba(0, 0, 0, .25) 30%, #000 75%);
+    animation: px-contour 70s linear infinite;
+}
+@keyframes px-contour { to { background-position: 520px 260px; } }
+.px-contact::after {
+    content: ""; position: absolute; z-index: -1; inset: 0; pointer-events: none;
+    background:
+        radial-gradient(circle at 0% 100%, rgba(255, 255, 255, .16), transparent 38%),
+        url(../img/root/plus-dark-pattern.png) right -30px top -30px / 320px auto no-repeat;
+    opacity: .9;
+}
+html.px-still .px-contact::before { animation: none; }
+/* The theme justifies every paragraph; in this card that opens rivers in short lines. */
+.px-contact p, .px-contact h2 { text-align: left; -webkit-hyphens: none; hyphens: none; }
+.px-contact__k {
+    display: flex; align-items: center; gap: 10px; margin: 0;
+    font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+    color: rgba(255, 255, 255, .8);
+}
+.px-contact__k::before { content: ""; width: 22px; height: 1px; background: currentColor; }
+.px-contact .px-contact__title {
+    margin: 16px 0 18px; color: #fff;
+    font-size: clamp(48px, 7vw, 96px); line-height: 1.05; font-weight: 700; letter-spacing: -.02em;
+}
+.px-contact__title em { font-style: normal; color: rgba(255, 255, 255, .72); }
+.px-contact .px-contact__lede { margin: 0; max-width: 560px; color: rgba(255, 255, 255, .86); font-size: clamp(16px, 1.4vw, 19px); line-height: 1.6; }
+
+.px-contact__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.px-pill {
+    display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px;
+    border-radius: 4px; border: 1px solid rgba(255, 255, 255, .55); background: transparent;
+    color: #fff !important; font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: -.01em; line-height: 1.2; text-decoration: none !important;
+    cursor: pointer; transition: background .2s, border-color .2s, color .2s, box-shadow .3s, transform .35s var(--px-spring);
+}
+.px-pill:hover { background: rgba(255, 255, 255, .14); border-color: #fff; }
+.px-pill:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.px-pill svg { flex: none; }
+.px-pill--solid, .px-pill.is-done { background: #fff; border-color: #fff; color: var(--px-theme, #c3323a) !important; }
+.px-pill--solid:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 14px 30px -10px rgba(0, 0, 0, .45); }
+
+.px-contact__meta {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px;
+    margin-top: 48px; padding-top: 28px; border-top: 1px solid rgba(255, 255, 255, .25);
+}
+.px-contact__meta span {
+    display: block; font-size: 12px; font-weight: 600; letter-spacing: .04em;
+    text-transform: uppercase; color: rgba(255, 255, 255, .72);
+}
+.px-contact .px-contact__meta p { margin: 8px 0 0; color: #fff; font-size: 14px; font-weight: 600; line-height: 1.5; }
+.px-contact__meta a { color: #fff !important; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255, 255, 255, .45); }
+.px-contact__meta a:hover { text-decoration-color: #fff; }
+.px-contact__meta a[href^="tel:"] { white-space: nowrap; }
+
+@media (max-width: 991px) {
+    .px-contact__meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 575px) {
+    .px-contact { border-radius: 12px; }
+    .px-contact__meta { grid-template-columns: 1fr; gap: 18px; margin-top: 36px; }
+    .px-pill { min-height: 46px; padding: 0 16px; }
+    .px-pill--solid { width: 100%; justify-content: center; }
+}
+
+/* ---------- Homepage hero ---------------------------------------------------- */
+/* The first slide keeps the theme's red photo background. pixel.js draws
+   white shooting stars on a canvas behind the slide's content. */
+
+.px-home .px-sky { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; }
+.px-home > .vlt-section__vertical-align { position: relative; z-index: 1; }
+/* ---------- Case study: the case file ------------------------------------- */
+/* Same family as the homepage Contact card: theme red, Manrope, 16px radius. */
+
+.cs-casefile { padding: 8px 0 24px; }
+.cs-casefile__card {
+    position: relative; overflow: hidden; isolation: isolate;
+    background: #c3323a; color: #fff; border-radius: 16px;
+    padding: clamp(24px, 4vw, 48px) clamp(22px, 4vw, 52px);
+    box-shadow: 0 30px 70px -34px rgba(120, 20, 26, .55);
+}
+.cs-casefile__card::before {
+    content: ""; position: absolute; z-index: -1; right: -40px; top: -40px; width: 340px; height: 260px;
+    background: url(../img/root/plus-dark-pattern.png) repeat; opacity: .14; mix-blend-mode: multiply;
+}
+.cs-casefile__eyebrow {
+    display: flex; align-items: center; gap: 10px; margin: 0 0 22px;
+    font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: rgba(255, 255, 255, .8);
+}
+.cs-casefile__eyebrow::before { content: ""; width: 22px; height: 1px; background: currentColor; }
+.cs-casefile__grid { display: grid; grid-template-columns: .8fr 1.2fr 1fr; gap: clamp(20px, 3vw, 40px); }
+.cs-casefile__col { padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .28); }
+.cs-casefile__k { display: block; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: rgba(255, 255, 255, .72); margin-bottom: 10px; }
+.cs-casefile p { margin: 0; text-align: left; color: #fff; }
+.cs-casefile .cs-casefile__asked {
+    font-size: clamp(20px, 2vw, 26px); font-weight: 700; line-height: 1.25; letter-spacing: -.01em;
+    color: rgba(255, 255, 255, .7); text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: rgba(255, 255, 255, .75);
+}
+.cs-casefile .cs-casefile__meant { font-size: clamp(17px, 1.6vw, 21px); font-weight: 600; line-height: 1.45; }
+.cs-casefile__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.cs-casefile__list li { position: relative; padding-left: 24px; font-size: 15px; font-weight: 600; line-height: 1.45; color: #fff; }
+.cs-casefile__list li::before {
+    content: "✓"; position: absolute; left: 0; top: 1px; width: 16px; height: 16px; border-radius: 50%;
+    background: #fff; color: #c3323a; font-size: 10px; font-weight: 800; line-height: 16px; text-align: center;
+}
+
+/* ---------- Case study: fold panels --------------------------------------- */
+/* Long reference blocks collapse behind a native <details> toggle. */
+
+.cs-fold { margin-top: 28px; border: 1px solid #e7e7ea; border-radius: 12px; background: #fff; overflow: hidden; }
+.cs-fold__summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 18px 22px; cursor: pointer; list-style: none;
+    font-size: 15px; font-weight: 700; color: #141414; transition: background .2s;
+}
+.cs-fold__summary::-webkit-details-marker { display: none; }
+.cs-fold__summary:hover { background: #faf6f6; }
+.cs-fold__summary:focus-visible { outline: 2px solid #c3323a; outline-offset: -2px; }
+.cs-fold__icon { position: relative; flex: none; width: 28px; height: 28px; border-radius: 50%; background: #c3323a; transition: transform .35s var(--px-spring); }
+.cs-fold__icon::before, .cs-fold__icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 2px; margin: -1px 0 0 -6px; background: #fff; border-radius: 2px; }
+.cs-fold__icon::after { transform: rotate(90deg); transition: transform .3s; }
+.cs-fold[open] .cs-fold__icon { transform: rotate(180deg); }
+.cs-fold[open] .cs-fold__icon::after { transform: rotate(0deg); }
+.cs-fold[open] .cs-fold__summary { border-bottom: 1px solid #efeff1; }
+.cs-fold__body { padding: 8px 22px 24px; }
+.cs-fold[open] .cs-fold__body { animation: px-pop .35s var(--px-decel); }
+
+@media (max-width: 991px) {
+    .cs-casefile__grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 575px) {
+    .cs-casefile__card { border-radius: 12px; }
+    .cs-fold__summary { padding: 16px; font-size: 14px; }
+    .cs-fold__body { padding: 4px 14px 18px; }
+}
+
+/* ---------- Reduced motion ------------------------------------------------ */
+
+html.px-still .px-bot *, html.px-still .px-letter, html.px-still .px-tilt { animation: none !important; transition: none !important; }
+html.px-still .px-cursor { display: none; }
+
+/* ---------- Small screens ------------------------------------------------- */
+
+@media (max-width: 991px) {
+    .px-cursor { display: none; }
+}
+/* Below ~1200px the hero heading wraps to more lines and the frame's
+   labels would sit on the line above, so keep just the frame. */
+@media (max-width: 1199px) {
+    .px-sel__tag, .px-sel__dim { display: none; }
+}
+@media (max-width: 575px) {
+    .px-bubble { max-width: calc(100vw - 40px); font-size: 13px; }
+    .px-walker { width: 40px; height: 40px; }
+    .px-chat { right: 16px; bottom: 16px; max-height: calc(100vh - 90px); }
+    .px-sel__dim { display: none; }
+}

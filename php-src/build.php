@@ -2472,7 +2472,7 @@ function render_work(string $slug): string
                             <span class="cs-footer__label">Explore</span>
                             <a href="index.php">Home</a>
                             <a href="projects.php">All projects</a>
-                            <a href="images/resume/TAMILSELVAN(RESUME-2026).pdf" target="_blank" rel="noopener">Résumé</a>
+                            <a href="https://drive.google.com/file/d/1_TdCRu88sQYzBtY5pvJIjp-dVX5ThvIp/view" target="_blank" rel="noopener">Résumé</a>
                         </nav>
                         <nav class="cs-footer__col" aria-label="Connect">
                             <span class="cs-footer__label">Connect</span>
@@ -2795,7 +2795,7 @@ function render_projects(): string
                             <span class="cs-footer__label">Explore</span>
                             <a href="index.php">Home</a>
                             <a href="projects.php">All projects</a>
-                            <a href="images/resume/TAMILSELVAN(RESUME-2026).pdf" target="_blank" rel="noopener">Résumé</a>
+                            <a href="https://drive.google.com/file/d/1_TdCRu88sQYzBtY5pvJIjp-dVX5ThvIp/view" target="_blank" rel="noopener">Résumé</a>
                         </nav>
                         <nav class="cs-footer__col" aria-label="Connect">
                             <span class="cs-footer__label">Connect</span>
@@ -3082,7 +3082,7 @@ function render_index(): string
                                                                                                     </div>
                                                                                                 </div>-->
                                             </div>
-                                            <div class="vlt-gap-40"></div><a class="vlt-link has-white-color" href="images/resume/TAMILSELVAN(RESUME-2026).pdf" target="_blank" rel="noopener">Read the résumé</a>
+                                            <div class="vlt-gap-40"></div><a class="vlt-link has-white-color" href="https://drive.google.com/file/d/1_TdCRu88sQYzBtY5pvJIjp-dVX5ThvIp/view" target="_blank" rel="noopener">Read the résumé</a>
                                         </div>
                                     </div>
                                 </div>
@@ -3326,7 +3326,7 @@ function render_index(): string
                                         <div class="vlt-gap-50"></div>
                                         <!--Animated Block-->
                                         <div class="vlt-animated-block" style="animation-delay:200ms; animation-duration:700ms;">
-                                            <!--Button--><a class="vlt-btn vlt-btn--primary" href="images/resume/TAMILSELVAN(RESUME-2026).pdf" target="_blank" rel="noopener"><span class="vlt-btn__text">Download Resume</span><span class="vlt-btn__icon vlt-btn__icon--right"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round">
+                                            <!--Button--><a class="vlt-btn vlt-btn--primary" href="https://drive.google.com/file/d/1_TdCRu88sQYzBtY5pvJIjp-dVX5ThvIp/view" target="_blank" rel="noopener"><span class="vlt-btn__text">Download Resume</span><span class="vlt-btn__icon vlt-btn__icon--right"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round">
                                                     <line x1="12" y1="5" x2="12" y2="19"></line>
                                                     <polyline points="19 12 12 19 5 12"></polyline>
                                                     </svg></span></a>
@@ -3774,7 +3774,7 @@ function render_index(): string
                                                     <a class="px-pill px-pill--solid" href="mailto:info.tamilsoft@gmail.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>info.tamilsoft@gmail.com</a>
                                                     <button type="button" class="px-pill" data-px="copy-email" data-email="info.tamilsoft@gmail.com"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy email</span></button>
                                                     <button type="button" class="px-pill" data-px="open-chat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="4"/><path d="M12 3v4M9.5 13h.01M14.5 13h.01"/></svg>Ask Albus</button>
-                                                    <a class="px-pill" href="images/resume/TAMILSELVAN(RESUME-2026).pdf" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>Résumé</a>
+                                                    <a class="px-pill" href="https://drive.google.com/file/d/1_TdCRu88sQYzBtY5pvJIjp-dVX5ThvIp/view" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>Résumé</a>
                                                 </div>
                                                 <div class="px-contact__meta">
                                                     <div><span>Latest</span><p>Senior Product Designer, Visionquest</p></div>

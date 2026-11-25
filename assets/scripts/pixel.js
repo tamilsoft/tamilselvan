@@ -16,7 +16,7 @@
     'use strict';
 
     var EMAIL = 'info.tamilsoft@gmail.com';
-    var RESUME = 'images/resume/TAMILSELVAN(RESUME-2026).pdf';
+    var RESUME = 'https://drive.google.com/file/d/1_TdCRu88sQYzBtY5pvJIjp-dVX5ThvIp/view';
     var LINKEDIN = 'https://www.linkedin.com/in/tamilselvan-madhu-8116ba178/';
     var CASE_URL = 'work-karnataka-eprocurement.html';
 

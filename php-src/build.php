@@ -2441,7 +2441,7 @@ function render_work(string $slug): string
                         <a class="cs-cta__secondary" href="projects.php">View all work</a>
                     </div>
                     <div class="cs-cta__links">
-                        <a href="mailto:info.tamilsoft@gmail.com">info.tamilsoft@gmail.com</a>
+                        <a href="mailto:tamilsoft.design@gmail.com">tamilsoft.design@gmail.com</a>
                         <span aria-hidden="true">/</span>
                         <a href="tel:+919786688777">+91 97866 88777</a>
                         <span aria-hidden="true">/</span>
@@ -2476,7 +2476,7 @@ function render_work(string $slug): string
                         </nav>
                         <nav class="cs-footer__col" aria-label="Connect">
                             <span class="cs-footer__label">Connect</span>
-                            <a href="mailto:info.tamilsoft@gmail.com">Email</a>
+                            <a href="mailto:tamilsoft.design@gmail.com">Email</a>
                             <a href="https://www.behance.net/tamilselvan5" target="_blank" rel="noopener">Behance</a>
                             <a href="https://www.linkedin.com/in/tamilselvan-madhu-8116ba178/" target="_blank" rel="noopener">LinkedIn</a>
                         </nav>
@@ -2799,7 +2799,7 @@ function render_projects(): string
                         </nav>
                         <nav class="cs-footer__col" aria-label="Connect">
                             <span class="cs-footer__label">Connect</span>
-                            <a href="mailto:info.tamilsoft@gmail.com">Email</a>
+                            <a href="mailto:tamilsoft.design@gmail.com">Email</a>
                             <a href="https://www.behance.net/tamilselvan5" target="_blank" rel="noopener">Behance</a>
                             <a href="https://www.linkedin.com/in/tamilselvan-madhu-8116ba178/" target="_blank" rel="noopener">LinkedIn</a>
                         </nav>
@@ -2987,7 +2987,7 @@ function render_index(): string
                             <ul>
                                 <li><a href="tel:+919786688777">+91 97866 88777</a></li>
                                 <li class="sep">/</li>
-                                <li><a href="mailto:info.tamilsoft@gmail.com">info.tamilsoft@gmail.com</a></li>
+                                <li><a href="mailto:tamilsoft.design@gmail.com">tamilsoft.design@gmail.com</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -3771,8 +3771,8 @@ function render_index(): string
                                                 <h2 class="px-contact__title">Let&rsquo;s <em>talk.</em></h2>
                                                 <p class="px-contact__lede">Some work is better walked through than published. Ask for a walkthrough &mdash; or ask Albus first. It&rsquo;s quick.</p>
                                                 <div class="px-contact__actions">
-                                                    <a class="px-pill px-pill--solid" href="mailto:info.tamilsoft@gmail.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>info.tamilsoft@gmail.com</a>
-                                                    <button type="button" class="px-pill" data-px="copy-email" data-email="info.tamilsoft@gmail.com"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy email</span></button>
+                                                    <a class="px-pill px-pill--solid" href="mailto:tamilsoft.design@gmail.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>tamilsoft.design@gmail.com</a>
+                                                    <button type="button" class="px-pill" data-px="copy-email" data-email="tamilsoft.design@gmail.com"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy email</span></button>
                                                     <button type="button" class="px-pill" data-px="open-chat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="13" rx="4"/><path d="M12 3v4M9.5 13h.01M14.5 13h.01"/></svg>Ask Albus</button>
                                                     <a class="px-pill" href="https://drive.google.com/file/d/1_TdCRu88sQYzBtY5pvJIjp-dVX5ThvIp/view" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>Résumé</a>
                                                 </div>
